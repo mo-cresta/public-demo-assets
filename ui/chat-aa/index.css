@@ -1,0 +1,57 @@
+#content {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-image: url("./images/verizon_2025.png");
+    /* The image used */
+    background-color: #cccccc;
+    /* Used if the image is unavailable */
+    height: 500px;
+    /* You must set a specified height */
+  
+    background-repeat: no-repeat;
+    /* Do not repeat the image */
+    background-size: cover;
+    /* Resize the background image to cover the entire container */
+    background-position: right;
+    /* Center the image */
+    padding-left: 0;
+  }
+  
+  /* collapsed button */
+  .LPMcontainer.LPMoverlay {
+    background-color: rgb(162, 21, 35) !important;
+  }
+  
+  .lp_desktop .lp-window-root>* {
+    margin-bottom: 40px !important;
+  }
+  
+  .LPMcontainer.LPMoverlay .LPMlabel {
+    color: white !important;
+  }
+  
+  /* expanded header */
+  .lp_desktop .lp-window-root>* .lp_header {
+    background-color: rgb(162, 21, 35) !important;
+  }
+  
+  /* agent */
+  .lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line {
+    background-color: rgb(162, 21, 35) !important;
+  }
+  
+  .lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line .lp_title_text {
+    color: white !important;
+  }
+  
+  /* visitor */
+  .lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line {
+    background-color: rgb(236, 236, 236) !important;
+  }
+  
+  .lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line .lp_title_text {
+    color: black !important;
+  }
