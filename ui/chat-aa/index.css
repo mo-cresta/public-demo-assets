@@ -15,8 +15,8 @@
     /* Do not repeat the image */
     background-size: cover;
     /* Resize the background image to cover the entire container */
-    background-position: right;
-    /* Center the image */
+    background-position: left;
+    /* Position the image */
     padding-left: 0;
   }
   
