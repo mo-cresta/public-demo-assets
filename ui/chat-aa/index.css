@@ -1,10 +1,18 @@
+:root {
+    --primary-color: rgb(162, 21, 35);
+    --text-on-primary: white;
+    --visitor-bg: white;
+    --text-on-visitor: black;
+    --content-bg-image: url("./images/verizon-troubleshooting.png");
+}
+
 #content {
     display: block;
     width: 100%;
     border: none;
     overflow-y: auto;
     overflow-x: hidden;
-    background-image: url("./images/verizon-troubleshooting.png");
+    background-image: var(--content-bg-image);
     /* The image used */
     background-color: #cccccc;
     /* Used if the image is unavailable */
@@ -18,40 +26,63 @@
     background-position: left;
     /* Position the image */
     padding-left: 0;
-  }
+}
   
-  /* collapsed button */
-  .LPMcontainer.LPMoverlay {
-    background-color: rgb(162, 21, 35) !important;
-  }
+/* collapsed button */
+.LPMcontainer.LPMoverlay {
+    background-color: var(--primary-color) !important;
+}
   
-  .lp_desktop .lp-window-root>* {
+.lp_desktop .lp-window-root>* {
     margin-bottom: 40px !important;
-  }
+}
   
-  .LPMcontainer.LPMoverlay .LPMlabel {
-    color: white !important;
-  }
+.LPMcontainer.LPMoverlay .LPMlabel {
+    color: var(--text-on-primary) !important;
+}
   
-  /* expanded header */
-  .lp_desktop .lp-window-root>* .lp_header {
-    background-color: rgb(162, 21, 35) !important;
-  }
+/* expanded header */
+.lp_desktop .lp-window-root>* .lp_header {
+    background-color: var(--primary-color) !important;
+}
   
-  /* agent */
-  .lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line {
-    background-color: rgb(162, 21, 35) !important;
-  }
+/* agent */
+.lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line {
+    background-color: var(--primary-color) !important;
+}
   
-  .lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line .lp_title_text {
-    color: white !important;
-  }
+.lp-window-root .lp_chat_line_wrapper.lp_agent .lp_new_chat_line .lp_title_text {
+    color: var(--text-on-primary) !important;
+}
   
-  /* visitor */
-  .lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line {
-    background-color: rgb(236, 236, 236) !important;
-  }
+/* visitor */
+.lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line {
+    background-color: var(--visitor-bg) !important;
+}
   
-  .lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line .lp_title_text {
-    color: black !important;
-  }
+.lp-window-root .lp_chat_line_wrapper.lp_visitor .lp_new_chat_line .lp_title_text {
+    color: var(--text-on-visitor) !important;
+}
+
+/* Settings buttons */
+.settings-buttons {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.settings-button {
+    opacity: 0.1;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+.settings-button:hover {
+    opacity: 1;
+}
