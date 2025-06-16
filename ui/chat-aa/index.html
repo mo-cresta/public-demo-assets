@@ -37,6 +37,48 @@
   <div class="settings-buttons">
     <button class="settings-button" onclick="handleColorSettings()">🎨</button>
   </div>
+  
+  <!-- Color Settings Form Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🎨 Color Settings</h2>
+        <span class="close" onclick="closeSettingsModal()">&times;</span>
+      </div>
+      <form id="colorSettingsForm">
+        <div class="form-group">
+          <label for="primaryColor">Primary Color:</label>
+          <input type="text" id="primaryColor" name="primaryColor" placeholder="e.g., purple, #800080, rgb(128,0,128)">
+        </div>
+        
+        <div class="form-group">
+          <label for="textOnPrimary">Text on Primary:</label>
+          <input type="text" id="textOnPrimary" name="textOnPrimary" placeholder="e.g., white, black, #ffffff">
+        </div>
+        
+        <div class="form-group">
+          <label for="visitorBg">Visitor Background:</label>
+          <input type="text" id="visitorBg" name="visitorBg" placeholder="e.g., lightblue, #add8e6">
+        </div>
+        
+        <div class="form-group">
+          <label for="textOnVisitor">Text on Visitor:</label>
+          <input type="text" id="textOnVisitor" name="textOnVisitor" placeholder="e.g., black, white, #000000">
+        </div>
+        
+        <div class="form-group">
+          <label for="contentBgImage">Background Image:</label>
+          <input type="text" id="contentBgImage" name="contentBgImage" placeholder="e.g., verizon-troubleshooting.png">
+        </div>
+        
+        <div class="form-buttons">
+          <button type="button" onclick="resetToDefaults()">Reset to Defaults</button>
+          <button type="button" onclick="closeSettingsModal()">Cancel</button>
+          <button type="submit">Apply Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script type="application/javascript">
     var siteId = "84359050";
     window.lpTag = window.lpTag || {}; if (typeof window.lpTag._tagCount === 'undefined') {

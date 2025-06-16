@@ -47,80 +47,131 @@ function convertColor(colorValue) {
     return computedColor !== 'rgba(0, 0, 0, 0)' ? computedColor : null;
 }
 
-// Function to handle settings
-async function handleColorSettings() {
+// Function to handle settings button click
+function handleColorSettings() {
     const currentSettings = getCurrentSettings();
+    populateForm(currentSettings);
+    showSettingsModal();
+}
 
-    const settingsPrompt = `Enter new color settings (one per line, format: property: value):
+// Function to show the settings modal
+function showSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'block';
+}
 
-Available properties:
-- primaryColor: Main theme color
-- textOnPrimary: Text color on primary background  
-- visitorBg: Visitor message background color
-- textOnVisitor: Text color on visitor messages
-- contentBgImage: Background image (just filename or full URL)
+// Function to close the settings modal
+function closeSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
 
-Current settings:
-primaryColor: ${currentSettings.primaryColor}
-textOnPrimary: ${currentSettings.textOnPrimary}
-visitorBg: ${currentSettings.visitorBg}
-textOnVisitor: ${currentSettings.textOnVisitor}
-contentBgImage: ${currentSettings.contentBgImage}
-
-Example input:
-primaryColor: purple
-textOnPrimary: white
-visitorBg: lightblue
-contentBgImage: verizon-troubleshooting.png
-
-Leave any line empty or omit it to keep current value.`;
-
-    const newSettings = window.prompt(settingsPrompt);
-
-    if (newSettings) {
-        try {
-            const updatedSettings = { ...currentSettings }; // Start with current settings
-            
-            // Parse input - handle both single line and multi-line input
-            const lines = newSettings.includes('\n') ? newSettings.split('\n') : [newSettings];
-            
-            lines.forEach(line => {
-                const colonIndex = line.indexOf(':');
-                if (colonIndex === -1) return;
-                
-                const property = line.substring(0, colonIndex).trim();
-                const value = line.substring(colonIndex + 1).trim();
-                
-                if (!property || !value) return;
-                
-                // Handle different property types
-                if (['primaryColor', 'textOnPrimary', 'visitorBg', 'textOnVisitor'].includes(property)) {
-                    const convertedColor = convertColor(value);
-                    if (convertedColor) {
-                        updatedSettings[property] = convertedColor;
-                    }
-                } else if (property === 'contentBgImage') {
-                    // Handle background image
-                    if (value.startsWith('url(')) {
-                        updatedSettings[property] = value;
-                    } else if (value.includes('.')) {
-                        // If it's just a filename with extension, assume it's in the images folder
-                        updatedSettings[property] = `url("./images/${value}")`;
-                    } else {
-                        updatedSettings[property] = value;
-                    }
-                }
-            });
-
-            // Update settings
-            updateSettings(updatedSettings);
-            alert('Settings updated successfully!');
-            
-        } catch (error) {
-            console.error('Error updating settings:', error);
-            alert('Error updating settings. Please check the console for details.');
+// Function to populate form with current settings
+function populateForm(settings) {
+    document.getElementById('primaryColor').value = settings.primaryColor || '';
+    document.getElementById('textOnPrimary').value = settings.textOnPrimary || '';
+    document.getElementById('visitorBg').value = settings.visitorBg || '';
+    document.getElementById('textOnVisitor').value = settings.textOnVisitor || '';
+    
+    // Clean up background image display (remove url() wrapper for display)
+    let bgImage = settings.contentBgImage || '';
+    if (bgImage.startsWith('url("') && bgImage.endsWith('")')) {
+        bgImage = bgImage.slice(5, -2); // Remove url(" and ")
+        if (bgImage.startsWith('./images/')) {
+            bgImage = bgImage.slice(9); // Remove ./images/ prefix for display
         }
     }
+    document.getElementById('contentBgImage').value = bgImage;
+}
+
+// Function to handle form submission
+function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    try {
+        const formData = new FormData(event.target);
+        const currentSettings = getCurrentSettings();
+        const updatedSettings = { ...currentSettings };
+        
+        // Process each form field
+        for (const [property, value] of formData.entries()) {
+            if (!value.trim()) continue; // Skip empty values
+            
+            if (['primaryColor', 'textOnPrimary', 'visitorBg', 'textOnVisitor'].includes(property)) {
+                const convertedColor = convertColor(value);
+                if (convertedColor) {
+                    updatedSettings[property] = convertedColor;
+                }
+            } else if (property === 'contentBgImage') {
+                // Handle background image
+                if (value.startsWith('url(')) {
+                    updatedSettings[property] = value;
+                } else if (value.includes('.')) {
+                    // If it's just a filename with extension, assume it's in the images folder
+                    updatedSettings[property] = `url("./images/${value}")`;
+                } else {
+                    updatedSettings[property] = value;
+                }
+            }
+        }
+
+        // Update settings
+        updateSettings(updatedSettings);
+        closeSettingsModal();
+        
+        // Show success message
+        showSuccessMessage('Settings updated successfully!');
+        
+    } catch (error) {
+        console.error('Error updating settings:', error);
+        showErrorMessage('Error updating settings. Please check the console for details.');
+    }
+}
+
+// Function to reset to default settings
+function resetToDefaults() {
+    if (confirm('Are you sure you want to reset all settings to defaults?')) {
+        updateSettings(defaultSettings);
+        populateForm(defaultSettings);
+        showSuccessMessage('Settings reset to defaults!');
+    }
+}
+
+// Function to show success message
+function showSuccessMessage(message) {
+    const toast = createToast(message, 'success');
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        document.body.removeChild(toast);
+    }, 3000);
+}
+
+// Function to show error message
+function showErrorMessage(message) {
+    const toast = createToast(message, 'error');
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        document.body.removeChild(toast);
+    }, 4000);
+}
+
+// Function to create toast notification
+function createToast(message, type) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background-color: ${type === 'success' ? '#28a745' : '#dc3545'};
+        color: white;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10001;
+        font-size: 14px;
+        font-weight: 500;
+        animation: toastSlideIn 0.3s ease-out;
+    `;
+    toast.textContent = message;
+    return toast;
 }
 
 // Function to get current settings
@@ -153,7 +204,39 @@ function initializeSettings() {
 
 // Initialize when DOM is loaded
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeSettings);
+    document.addEventListener('DOMContentLoaded', initializeAll);
 } else {
+    initializeAll();
+}
+
+// Function to initialize everything
+function initializeAll() {
     initializeSettings();
+    initializeEventListeners();
+}
+
+// Function to initialize event listeners
+function initializeEventListeners() {
+    // Form submission handler
+    const form = document.getElementById('colorSettingsForm');
+    if (form) {
+        form.addEventListener('submit', handleFormSubmit);
+    }
+    
+    // Close modal when clicking outside of it
+    const modal = document.getElementById('settingsModal');
+    if (modal) {
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeSettingsModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            closeSettingsModal();
+        }
+    });
 } 
