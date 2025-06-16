@@ -1,21 +1,34 @@
 (function() {
+    // Get configurable colors from localStorage or use defaults
+    const titlebarColor = localStorage.getItem('titlebarColor') || 'black';
+    const chatBackgroundColor = localStorage.getItem('chatBackgroundColor') || '#f1f2f4';
+    const titlebarFontColor = localStorage.getItem('titlebarFontColor') || 'white';
+    const closeIconColor = localStorage.getItem('closeIconColor') || 'black';
+    const userMessageBackgroundColor = localStorage.getItem('userMessageBackgroundColor') || 'black';
+    const userMessageTextColor = localStorage.getItem('userMessageTextColor') || 'white';
+    const aiMessageBackgroundColor = localStorage.getItem('aiMessageBackgroundColor') || 'black';
+    const aiMessageTextColor = localStorage.getItem('aiMessageTextColor') || 'black';
+    const sendIconColor = localStorage.getItem('sendIconColor') || 'black';
+    const inputBorderColor = localStorage.getItem('inputBorderColor') || 'black';
+    const widgetBackgroundColor = localStorage.getItem('widgetBackgroundColor') || 'white';
+
     // Create a <style> element and add your CSS rules
     const styleEl = document.createElement('style');
     styleEl.textContent = `
       df-messenger {
-        --df-messenger-button-titlebar-color: black;
-        --df-messenger-chat-background-color: #f1f2f4;
-        --df-messenger-button-titlebar-font-color: white;
-        --df-messenger-minimized-chat-close-icon-color: black;
-        --df-messenger-user-message-background-color: black;
-        --df-messenger-user-message-text-color: white;
-        --ai-message-background-color: black;
-        --ai-message-text-color: black;
+        --df-messenger-button-titlebar-color: ${titlebarColor};
+        --df-messenger-chat-background-color: ${chatBackgroundColor};
+        --df-messenger-button-titlebar-font-color: ${titlebarFontColor};
+        --df-messenger-minimized-chat-close-icon-color: ${closeIconColor};
+        --df-messenger-user-message-background-color: ${userMessageBackgroundColor};
+        --df-messenger-user-message-text-color: ${userMessageTextColor};
+        --ai-message-background-color: ${aiMessageBackgroundColor};
+        --ai-message-text-color: ${aiMessageTextColor};
         --ai-message-window-desktop-width: 500px;
         --ai-message-window-desktop-height: 600px;
-        --df-messenger-send-icon-color: black;
-        --df-messenger-input-border-color: black;
-        --widget-messenger-background-color: white;
+        --df-messenger-send-icon-color: ${sendIconColor};
+        --df-messenger-input-border-color: ${inputBorderColor};
+        --widget-messenger-background-color: ${widgetBackgroundColor};
       }
     `;
     document.head.appendChild(styleEl);
@@ -32,16 +45,18 @@
       // Get parameters from localStorage or use defaults
       const aiAgentId = localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
+      const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
       const useCase = 'virtual-agent-sandbox-voice';
       const customerName = 'cresta';
       
       console.log('Using AI Agent ID:', aiAgentId);
       console.log('Using namespace:', namespace);
+      console.log('Using chat icon:', chatIcon);
       
       const dfMessenger = document.createElement('df-messenger');
       dfMessenger.setAttribute('chat-title', 'Cresta');
       dfMessenger.setAttribute('persist-session', 'true');
-      dfMessenger.setAttribute('chat-icon', 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png');
+      dfMessenger.setAttribute('chat-icon', chatIcon);
       dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
       dfMessenger.setAttribute('crestagpt-agent', aiAgentId);
       dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
