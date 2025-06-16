@@ -1,27 +1,29 @@
-// Default colors and settings
+// Default settings that match modal.js
 const defaultSettings = {
-    primaryColor: 'rgb(162, 21, 35)',
-    textOnPrimary: 'white',
-    visitorBg: 'white',
-    textOnVisitor: 'black',
-    contentBgImage: 'url("./images/verizon-troubleshooting.png")'
+    titlebarColor: 'black',
+    chatBackgroundColor: '#f1f2f4',
+    titlebarFontColor: 'white',
+    closeIconColor: 'black',
+    userMessageBackgroundColor: 'black',
+    userMessageTextColor: 'white',
+    aiMessageBackgroundColor: 'black',
+    aiMessageTextColor: 'black',
+    sendIconColor: 'black',
+    inputBorderColor: 'black',
+    widgetBackgroundColor: 'white',
+    chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png'
 };
 
-// Function to update settings
+// Function to update settings - save directly to localStorage
 function updateSettings(settings) {
-    const root = document.documentElement;
-    root.style.setProperty('--primary-color', settings.primaryColor);
-    root.style.setProperty('--text-on-primary', settings.textOnPrimary);
-    root.style.setProperty('--visitor-bg', settings.visitorBg);
-    root.style.setProperty('--text-on-visitor', settings.textOnVisitor);
-    root.style.setProperty('--content-bg-image', settings.contentBgImage);
+    // Save each setting to localStorage
+    Object.keys(settings).forEach(key => {
+        if (settings[key] !== null && settings[key] !== undefined) {
+            localStorage.setItem(key, settings[key]);
+        }
+    });
     
-    // Save to localStorage instead of Chrome storage
-    try {
-        localStorage.setItem('colorSettings', JSON.stringify(settings));
-    } catch (e) {
-        console.warn('Could not save settings to localStorage:', e);
-    }
+    console.log('Settings saved to localStorage:', settings);
 }
 
 // Function to convert color names to valid CSS values
@@ -66,24 +68,25 @@ function closeSettingsModal() {
 
 // Function to populate form with current settings
 function populateForm(settings) {
-    document.getElementById('primaryColor').value = settings.primaryColor || '';
-    document.getElementById('textOnPrimary').value = settings.textOnPrimary || '';
-    document.getElementById('visitorBg').value = settings.visitorBg || '';
-    document.getElementById('textOnVisitor').value = settings.textOnVisitor || '';
-    
-    // Clean up background image display (remove url() wrapper for display)
-    let bgImage = settings.contentBgImage || '';
-    if (bgImage.startsWith('url("') && bgImage.endsWith('")')) {
-        bgImage = bgImage.slice(5, -2); // Remove url(" and ")
-        if (bgImage.startsWith('./images/')) {
-            bgImage = bgImage.slice(9); // Remove ./images/ prefix for display
-        }
-    }
-    document.getElementById('contentBgImage').value = bgImage;
+    // Populate all the new color fields
+    document.getElementById('titlebarColor').value = settings.titlebarColor || '';
+    document.getElementById('chatBackgroundColor').value = settings.chatBackgroundColor || '';
+    document.getElementById('titlebarFontColor').value = settings.titlebarFontColor || '';
+    document.getElementById('closeIconColor').value = settings.closeIconColor || '';
+    document.getElementById('userMessageBackgroundColor').value = settings.userMessageBackgroundColor || '';
+    document.getElementById('userMessageTextColor').value = settings.userMessageTextColor || '';
+    document.getElementById('aiMessageBackgroundColor').value = settings.aiMessageBackgroundColor || '';
+    document.getElementById('aiMessageTextColor').value = settings.aiMessageTextColor || '';
+    document.getElementById('sendIconColor').value = settings.sendIconColor || '';
+    document.getElementById('inputBorderColor').value = settings.inputBorderColor || '';
+    document.getElementById('widgetBackgroundColor').value = settings.widgetBackgroundColor || '';
+    document.getElementById('chatIcon').value = settings.chatIcon || '';
         
-    // Populate aiAgentId from localStorage
+    // Populate aiAgentId and namespace from localStorage
     const aiAgentId = localStorage.getItem('aiAgentId') || '';
+    const namespace = localStorage.getItem('namespace') || '';
     document.getElementById('aiAgentId').value = aiAgentId;
+    document.getElementById('namespace').value = namespace;
 }
 
 // Function to handle form submission
@@ -92,8 +95,7 @@ function handleFormSubmit(event) {
     
     try {
         const formData = new FormData(event.target);
-        const currentSettings = getCurrentSettings();
-        const updatedSettings = { ...currentSettings };
+        const updatedSettings = {};
         
         // Process each form field
         for (const [property, value] of formData.entries()) {
@@ -103,19 +105,20 @@ function handleFormSubmit(event) {
                 // Save aiAgentId to localStorage
                 localStorage.setItem('aiAgentId', value);
                 console.log('AI Agent ID updated:', value);
-            } else if (['primaryColor', 'textOnPrimary', 'visitorBg', 'textOnVisitor'].includes(property)) {
+            } else if (property === 'namespace') {
+                // Save namespace to localStorage
+                localStorage.setItem('namespace', value);
+                console.log('Namespace updated:', value);
+            } else if (property === 'chatIcon') {
+                // Save chat icon URL directly
+                updatedSettings[property] = value;
+            } else if (Object.keys(defaultSettings).includes(property)) {
+                // Handle color properties
                 const convertedColor = convertColor(value);
                 if (convertedColor) {
                     updatedSettings[property] = convertedColor;
-                }
-            } else if (property === 'contentBgImage') {
-                // Handle background image
-                if (value.startsWith('url(')) {
-                    updatedSettings[property] = value;
-                } else if (value.includes('.')) {
-                    // If it's just a filename with extension, assume it's in the images folder
-                    updatedSettings[property] = `url("./images/${value}")`;
                 } else {
+                    // If color conversion fails, still save the original value
                     updatedSettings[property] = value;
                 }
             }
@@ -126,7 +129,7 @@ function handleFormSubmit(event) {
         closeSettingsModal();
         
         // Show success message
-        showSuccessMessage('Settings updated successfully!');
+        showSuccessMessage('Settings updated successfully! Please refresh the page to see changes.');
         
     } catch (error) {
         console.error('Error updating settings:', error);
@@ -137,10 +140,17 @@ function handleFormSubmit(event) {
 // Function to reset to default settings
 function resetToDefaults() {
     if (confirm('Are you sure you want to reset all settings to defaults?')) {
-        updateSettings(defaultSettings);
+        // Clear all settings from localStorage
+        Object.keys(defaultSettings).forEach(key => {
+            localStorage.removeItem(key);
+        });
         localStorage.removeItem('aiAgentId');
+        localStorage.removeItem('namespace');
+        
+        // Update with defaults
+        updateSettings(defaultSettings);
         populateForm(defaultSettings);
-        showSuccessMessage('Settings reset to defaults!');
+        showSuccessMessage('Settings reset to defaults! Please refresh the page to see changes.');
     }
 }
 
@@ -150,7 +160,7 @@ function showSuccessMessage(message) {
     document.body.appendChild(toast);
     setTimeout(() => {
         document.body.removeChild(toast);
-    }, 3000);
+    }, 4000);
 }
 
 // Function to show error message
@@ -178,37 +188,28 @@ function createToast(message, type) {
         font-size: 14px;
         font-weight: 500;
         animation: toastSlideIn 0.3s ease-out;
+        max-width: 300px;
     `;
     toast.textContent = message;
     return toast;
 }
 
-// Function to get current settings
+// Function to get current settings from localStorage
 function getCurrentSettings() {
-    const root = document.documentElement;
-    return {
-        primaryColor: getComputedStyle(root).getPropertyValue('--primary-color').trim() || defaultSettings.primaryColor,
-        textOnPrimary: getComputedStyle(root).getPropertyValue('--text-on-primary').trim() || defaultSettings.textOnPrimary,
-        visitorBg: getComputedStyle(root).getPropertyValue('--visitor-bg').trim() || defaultSettings.visitorBg,
-        textOnVisitor: getComputedStyle(root).getPropertyValue('--text-on-visitor').trim() || defaultSettings.textOnVisitor,
-        contentBgImage: getComputedStyle(root).getPropertyValue('--content-bg-image').trim() || defaultSettings.contentBgImage
-    };
+    const settings = {};
+    
+    // Get all settings from localStorage, using defaults if not found
+    Object.keys(defaultSettings).forEach(key => {
+        settings[key] = localStorage.getItem(key) || defaultSettings[key];
+    });
+    
+    return settings;
 }
 
-// Function to initialize settings
+// Function to initialize settings (not needed for modal.js approach, but kept for compatibility)
 function initializeSettings() {
-    try {
-        const savedSettings = localStorage.getItem('colorSettings');
-        if (savedSettings) {
-            const settings = JSON.parse(savedSettings);
-            updateSettings(settings);
-        } else {
-            updateSettings(defaultSettings);
-        }
-    } catch (e) {
-        console.warn('Could not load settings from localStorage, using defaults:', e);
-        updateSettings(defaultSettings);
-    }
+    // Settings are now handled directly by modal.js reading from localStorage
+    console.log('Settings initialization - modal.js will handle configuration');
 }
 
 // Initialize when DOM is loaded
@@ -220,7 +221,6 @@ if (document.readyState === 'loading') {
 
 // Function to initialize everything
 function initializeAll() {
-    initializeSettings();
     initializeEventListeners();
     initializeUrlParams();
 }
