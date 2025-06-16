@@ -37,7 +37,10 @@ visitorBg: ${currentSettings.visitorBg}
 textOnVisitor: ${currentSettings.textOnVisitor}
 contentBgImage: ${currentSettings.contentBgImage}
 
-Note: For contentBgImage, use format: url("./path/to/image.png")`;
+Note: 
+- For colors, use format: rgb(r,g,b) or #hex or color name
+- For contentBgImage, use format: url("./path/to/image.png")
+- Leave a line empty to keep its current value`;
 
     const newSettings = window.prompt(settingsPrompt, 
         Object.entries(currentSettings)
@@ -46,11 +49,35 @@ Note: For contentBgImage, use format: url("./path/to/image.png")`;
     );
 
     if (newSettings) {
-        const updatedSettings = {};
+        const updatedSettings = { ...currentSettings }; // Start with current settings
+        
         newSettings.split('\n').forEach(line => {
             const [property, value] = line.split(':').map(s => s.trim());
             if (property && value) {
-                updatedSettings[property] = value;
+                // Handle color names and formats
+                if (property === 'primaryColor' || property === 'textOnPrimary' || 
+                    property === 'visitorBg' || property === 'textOnVisitor') {
+                    // If it's a color name, convert to rgb
+                    if (!value.startsWith('rgb') && !value.startsWith('#')) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.style.color = value;
+                        document.body.appendChild(tempDiv);
+                        const rgbColor = getComputedStyle(tempDiv).color;
+                        document.body.removeChild(tempDiv);
+                        updatedSettings[property] = rgbColor;
+                    } else {
+                        updatedSettings[property] = value;
+                    }
+                } else if (property === 'contentBgImage') {
+                    // Ensure proper URL format
+                    if (!value.startsWith('url(')) {
+                        updatedSettings[property] = `url("${value}")`;
+                    } else {
+                        updatedSettings[property] = value;
+                    }
+                } else {
+                    updatedSettings[property] = value;
+                }
             }
         });
 
