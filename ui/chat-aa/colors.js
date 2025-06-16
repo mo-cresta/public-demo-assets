@@ -58,7 +58,7 @@ Available properties:
 - textOnPrimary: Text color on primary background  
 - visitorBg: Visitor message background color
 - textOnVisitor: Text color on visitor messages
-- contentBgImage: Background image URL
+- contentBgImage: Background image (just filename or full URL)
 
 Current settings:
 primaryColor: ${currentSettings.primaryColor}
@@ -71,6 +71,7 @@ Example input:
 primaryColor: purple
 textOnPrimary: white
 visitorBg: lightblue
+contentBgImage: verizon-troubleshooting.png
 
 Leave any line empty or omit it to keep current value.`;
 
@@ -102,8 +103,9 @@ Leave any line empty or omit it to keep current value.`;
                     // Handle background image
                     if (value.startsWith('url(')) {
                         updatedSettings[property] = value;
-                    } else if (value.startsWith('http') || value.startsWith('./') || value.startsWith('/')) {
-                        updatedSettings[property] = `url("${value}")`;
+                    } else if (value.includes('.')) {
+                        // If it's just a filename with extension, assume it's in the images folder
+                        updatedSettings[property] = `url("./images/${value}")`;
                     } else {
                         updatedSettings[property] = value;
                     }
