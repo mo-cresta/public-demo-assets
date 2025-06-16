@@ -80,6 +80,10 @@ function populateForm(settings) {
         }
     }
     document.getElementById('contentBgImage').value = bgImage;
+        
+    // Populate aiAgentId from localStorage
+    const aiAgentId = localStorage.getItem('aiAgentId') || '';
+    document.getElementById('aiAgentId').value = aiAgentId;
 }
 
 // Function to handle form submission
@@ -95,7 +99,11 @@ function handleFormSubmit(event) {
         for (const [property, value] of formData.entries()) {
             if (!value.trim()) continue; // Skip empty values
             
-            if (['primaryColor', 'textOnPrimary', 'visitorBg', 'textOnVisitor'].includes(property)) {
+            if (property === 'aiAgentId') {
+                // Save aiAgentId to localStorage
+                localStorage.setItem('aiAgentId', value);
+                console.log('AI Agent ID updated:', value);
+            } else if (['primaryColor', 'textOnPrimary', 'visitorBg', 'textOnVisitor'].includes(property)) {
                 const convertedColor = convertColor(value);
                 if (convertedColor) {
                     updatedSettings[property] = convertedColor;
@@ -130,6 +138,7 @@ function handleFormSubmit(event) {
 function resetToDefaults() {
     if (confirm('Are you sure you want to reset all settings to defaults?')) {
         updateSettings(defaultSettings);
+        localStorage.removeItem('aiAgentId');
         populateForm(defaultSettings);
         showSuccessMessage('Settings reset to defaults!');
     }
@@ -213,7 +222,28 @@ if (document.readyState === 'loading') {
 function initializeAll() {
     initializeSettings();
     initializeEventListeners();
+    initializeUrlParams();
 }
+
+// Function to initialize and save URL parameters
+function initializeUrlParams() {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const aiAgentId = urlParams.get('aiAgentId');
+        const namespace = urlParams.get('namespace') || 'virtual-agent-sandbox';
+        
+        if (aiAgentId) {
+            localStorage.setItem('aiAgentId', aiAgentId);
+            console.log('AI Agent ID saved:', aiAgentId);
+        }
+        
+        if (namespace) {
+            localStorage.setItem('namespace', namespace);
+            console.log('Namespace saved:', namespace);
+        }
+    } catch (e) {
+        console.warn('Could not save URL parameters to localStorage:', e);
+    }
 
 // Function to initialize event listeners
 function initializeEventListeners() {

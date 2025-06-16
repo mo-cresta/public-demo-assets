@@ -128,8 +128,10 @@ function handleFormSubmit(event) {
 
 // Function to reset to default settings
 function resetToDefaults() {
-    if (confirm('Are you sure you want to reset all settings to defaults?')) {
+    if (confirm('Are you sure you want to reset all settings to defaults? This will also clear the AI Agent ID.')) {
         updateSettings(defaultSettings);
+        // Clear aiAgentId from localStorage
+        localStorage.removeItem('aiAgentId');
         populateForm(defaultSettings);
         showSuccessMessage('Settings reset to defaults!');
     }

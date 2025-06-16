@@ -8,9 +8,14 @@
   <script src="./colors.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for namespace in URL params, then localStorage, then prompt
     if (!urlParams.get('namespace')) {
-      urlParams.append('namespace', window.prompt('enter usecase'));
-      window.location.search = urlParams;
+      const savedNamespace = localStorage.getItem('namespace');
+      if (!savedNamespace) {
+        urlParams.append('namespace', window.prompt('enter usecase'));
+        window.location.search = urlParams;
+      }
     }
   </script>
   <title>Cresta chat demo</title>

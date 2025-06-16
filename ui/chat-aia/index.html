@@ -12,6 +12,15 @@
       urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
       window.location.search = urlParams;
     }
+    
+    // Check for aiAgentId in URL params, then localStorage, then prompt
+    if (!urlParams.get('aiAgentId')) {
+      const savedAiAgentId = localStorage.getItem('aiAgentId');
+      if (!savedAiAgentId) {
+        urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
+        window.location.search = urlParams;
+      }
+    }
   </script>
   <title>Cresta chat demo</title>
   <style type="text/css">
@@ -45,7 +54,13 @@
         <h2>🎨 Color Settings</h2>
         <span class="close" onclick="closeSettingsModal()">&times;</span>
       </div>
+      
       <form id="colorSettingsForm">
+        <div class="form-group">
+          <label for="aiAgentId">AI Agent ID:</label>
+          <input type="text" id="aiAgentId" name="aiAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
+        </div>
+        
         <div class="form-group">
           <label for="primaryColor">Primary Color:</label>
           <input type="text" id="primaryColor" name="primaryColor" placeholder="e.g., purple, #800080, rgb(128,0,128)">
