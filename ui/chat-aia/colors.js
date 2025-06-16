@@ -244,6 +244,7 @@ function initializeUrlParams() {
     } catch (e) {
         console.warn('Could not save URL parameters to localStorage:', e);
     }
+}
 
 // Function to initialize event listeners
 function initializeEventListeners() {
@@ -269,4 +270,4 @@ function initializeEventListeners() {
             closeSettingsModal();
         }
     });
-} 
+}

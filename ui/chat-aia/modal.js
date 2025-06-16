@@ -27,7 +27,8 @@
     document.head.appendChild(linkEl);
   })();
   
-  (function() {
+  // Wait for DOM to be ready before manipulating document.body
+  function initializeMessenger() {
       // Get parameters from localStorage or use defaults
       const aiAgentId = localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
@@ -38,26 +39,34 @@
       console.log('Using namespace:', namespace);
       
       const dfMessenger = document.createElement('df-messenger');
-     dfMessenger.setAttribute('chat-title', 'Cresta');
-     dfMessenger.setAttribute('persist-session', 'true');
-     dfMessenger.setAttribute('chat-icon', 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png');
-     dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
-     dfMessenger.setAttribute('crestagpt-agent', aiAgentId);
-     dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
-     dfMessenger.setAttribute('crestagpt-customer', customerName);
-     dfMessenger.setAttribute('crestagpt-profile', namespace);
-     dfMessenger.setAttribute('crestagpt-usecase', useCase);
-     dfMessenger.setAttribute('auth-client-id', 'cresta-va-dev-testing');
-     dfMessenger.setAttribute('recaptcha-site-key', '6LeEVqgnAAAAAK7eLjKMoER7BbIahGTHTfQaD4xO');
-     dfMessenger.setAttribute('recaptcha-checkbox-site-key', '6Lc0dqgnAAAAADLukGM3TYFFmO5j62UwitR_wVfB');
-     dfMessenger.setAttribute('should-hide-popup', 'false');
-     dfMessenger.setAttribute("popup-delay-show", "1000");
-     dfMessenger.setAttribute("popup-delay-hide", "5000");
-     dfMessenger.setAttribute('should-hide-popup-on-device-type', 'mobile');
-     dfMessenger.setAttribute("position", "right");
-     dfMessenger.setAttribute("chat-window-horizontal-position", "center");
-     document.body.appendChild(dfMessenger);
-     const script = document.createElement('script');
-     script.src = 'https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.js';
-     document.body.appendChild(script);
-  })();
+      dfMessenger.setAttribute('chat-title', 'Cresta');
+      dfMessenger.setAttribute('persist-session', 'true');
+      dfMessenger.setAttribute('chat-icon', 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png');
+      dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
+      dfMessenger.setAttribute('crestagpt-agent', aiAgentId);
+      dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
+      dfMessenger.setAttribute('crestagpt-customer', customerName);
+      dfMessenger.setAttribute('crestagpt-profile', namespace);
+      dfMessenger.setAttribute('crestagpt-usecase', useCase);
+      dfMessenger.setAttribute('auth-client-id', 'cresta-va-dev-testing');
+      dfMessenger.setAttribute('recaptcha-site-key', '6LeEVqgnAAAAAK7eLjKMoER7BbIahGTHTfQaD4xO');
+      dfMessenger.setAttribute('recaptcha-checkbox-site-key', '6Lc0dqgnAAAAADLukGM3TYFFmO5j62UwitR_wVfB');
+      dfMessenger.setAttribute('should-hide-popup', 'false');
+      dfMessenger.setAttribute("popup-delay-show", "1000");
+      dfMessenger.setAttribute("popup-delay-hide", "5000");
+      dfMessenger.setAttribute('should-hide-popup-on-device-type', 'mobile');
+      dfMessenger.setAttribute("position", "right");
+      dfMessenger.setAttribute("chat-window-horizontal-position", "center");
+      document.body.appendChild(dfMessenger);
+      const script = document.createElement('script');
+      script.src = 'https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.js';
+      document.body.appendChild(script);
+  }
+  
+  // Check if DOM is already loaded
+  if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeMessenger);
+  } else {
+      // DOM is already loaded
+      initializeMessenger();
+  }
