@@ -1,17 +1,17 @@
 // Default settings that match modal.js
 const defaultSettings = {
-    titlebarColor: 'black',
-    chatBackgroundColor: '#f1f2f4',
-    titlebarFontColor: 'white',
     closeIconColor: 'black',
+    chatBackgroundColor: '#f1f2f4',
+    chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
+    titlebarColor: 'black',
+    titlebarFontColor: 'white',
     userMessageBackgroundColor: 'black',
     userMessageTextColor: 'white',
     aiMessageBackgroundColor: 'black',
     aiMessageTextColor: 'black',
-    sendIconColor: 'black',
     inputBorderColor: 'black',
+    sendIconColor: 'black',
     widgetBackgroundColor: 'white',
-    chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png'
 };
 
 // Function to update settings - save directly to localStorage
