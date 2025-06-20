@@ -46,17 +46,15 @@
       const aiAgentId = localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
       const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
+      const headerIcon = localStorage.getItem('headerIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
       const useCase = 'virtual-agent-sandbox-voice';
       const customerName = 'cresta';
-      
-      console.log('Using AI Agent ID:', aiAgentId);
-      console.log('Using namespace:', namespace);
-      console.log('Using chat icon:', chatIcon);
       
       const dfMessenger = document.createElement('df-messenger');
       dfMessenger.setAttribute('chat-title', 'Cresta');
       dfMessenger.setAttribute('persist-session', 'true');
       dfMessenger.setAttribute('chat-icon', chatIcon);
+      dfMessenger.setAttribute('header-icon', headerIcon);
       dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
       dfMessenger.setAttribute('crestagpt-agent', aiAgentId);
       dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");

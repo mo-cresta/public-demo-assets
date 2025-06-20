@@ -3,6 +3,7 @@ const defaultSettings = {
     closeIconColor: 'black',
     chatBackgroundColor: '#f1f2f4',
     chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
+    headerIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
     titlebarColor: 'black',
     titlebarFontColor: 'white',
     userMessageBackgroundColor: 'black',
@@ -81,7 +82,8 @@ function populateForm(settings) {
     document.getElementById('inputBorderColor').value = settings.inputBorderColor || '';
     document.getElementById('widgetBackgroundColor').value = settings.widgetBackgroundColor || '';
     document.getElementById('chatIcon').value = settings.chatIcon || '';
-        
+    document.getElementById('headerIcon').value = settings.headerIcon || '';
+    
     // Populate aiAgentId and namespace from localStorage
     const aiAgentId = localStorage.getItem('aiAgentId') || '';
     const namespace = localStorage.getItem('namespace') || '';
