@@ -108,11 +108,19 @@ function rgbToHex(rgb) {
     return rgb; // Return original if conversion fails
 }
 
+// Track if form has been populated to avoid overwriting user changes
+let formPopulated = false;
+
 // Function to handle settings button click
 function handleColorSettings() {
-    const currentSettings = getCurrentSettings();
-    populateForm(currentSettings);
     showSettingsModal();
+    
+    // Only populate form if it hasn't been populated yet or if modal was closed and reopened
+    if (!formPopulated) {
+        const currentSettings = getCurrentSettings();
+        populateForm(currentSettings);
+        formPopulated = true;
+    }
 }
 
 // Function to show the settings modal
@@ -123,6 +131,8 @@ function showSettingsModal() {
 // Function to close the settings modal
 function closeSettingsModal() {
     document.getElementById('settingsModal').style.display = 'none';
+    // Reset form populated flag so settings reload fresh next time
+    formPopulated = false;
 }
 
 // Function to populate form with current settings
@@ -160,6 +170,7 @@ function handleFormSubmit(event) {
         
         // Process each form field
         for (const [property, value] of formData.entries()) {
+            console.log(`Processing form field: ${property} = ${value}`);
             if (!value.trim()) continue; // Skip empty values
             
             if (property === 'aiAgentId') {
@@ -187,6 +198,10 @@ function handleFormSubmit(event) {
 
         // Update settings
         updateSettings(updatedSettings);
+        
+        // Reset form populated flag so saved settings show up next time
+        formPopulated = false;
+        
         closeSettingsModal();
         
         // Show success message
