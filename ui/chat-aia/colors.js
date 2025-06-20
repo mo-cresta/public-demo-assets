@@ -4,6 +4,7 @@ const defaultSettings = {
     chatBackgroundColor: '#f1f2f4',
     chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
     headerIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
+    backgroundImage: '',
     titlebarColor: 'black',
     titlebarFontColor: 'white',
     userMessageBackgroundColor: 'black',
@@ -24,7 +25,25 @@ function updateSettings(settings) {
         }
     });
     
+    // Apply background image immediately if it was updated
+    if (settings.backgroundImage) {
+        applyBackgroundImage(settings.backgroundImage);
+    }
+    
     console.log('Settings saved to localStorage:', settings);
+}
+
+// Function to apply background image by updating CSS variable
+function applyBackgroundImage(imageUrl) {
+    const root = document.documentElement;
+    if (imageUrl && imageUrl.trim()) {
+        root.style.setProperty('--content-bg-image', `url("${imageUrl}")`);
+        root.style.setProperty('--content-bg-color', '#cccccc');
+    } else {
+        // Reset to default white background if empty
+        root.style.setProperty('--content-bg-image', 'none');
+        root.style.setProperty('--content-bg-color', 'white');
+    }
 }
 
 // Function to convert color names to valid CSS values
@@ -83,6 +102,7 @@ function populateForm(settings) {
     document.getElementById('widgetBackgroundColor').value = settings.widgetBackgroundColor || '';
     document.getElementById('chatIcon').value = settings.chatIcon || '';
     document.getElementById('headerIcon').value = settings.headerIcon || '';
+    document.getElementById('backgroundImage').value = settings.backgroundImage || '';
     
     // Populate aiAgentId and namespace from localStorage
     const aiAgentId = localStorage.getItem('aiAgentId') || '';
@@ -111,8 +131,8 @@ function handleFormSubmit(event) {
                 // Save namespace to localStorage
                 localStorage.setItem('namespace', value);
                 console.log('Namespace updated:', value);
-            } else if (property === 'chatIcon' || property === 'headerIcon') {
-                // Save icon URLs directly
+            } else if (property === 'chatIcon' || property === 'headerIcon' || property === 'backgroundImage') {
+                // Save URLs directly (icons and background image)
                 updatedSettings[property] = value;
             } else if (Object.keys(defaultSettings).includes(property)) {
                 // Handle color properties
@@ -225,6 +245,14 @@ if (document.readyState === 'loading') {
 function initializeAll() {
     initializeEventListeners();
     initializeUrlParams();
+    initializeBackgroundImage();
+}
+
+// Function to initialize background image from localStorage
+function initializeBackgroundImage() {
+    const savedBackgroundImage = localStorage.getItem('backgroundImage');
+    // Always apply background settings - either saved image or default white
+    applyBackgroundImage(savedBackgroundImage || '');
 }
 
 // Function to initialize and save URL parameters

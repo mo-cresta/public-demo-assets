@@ -17,23 +17,37 @@ let workletNode;
 
 injectCSS();
 getAssociatedPhoneNumber();
-document.getElementById('injectedMicButton').addEventListener('click', toggleCall);
+
+// Wait for DOM to be ready before attaching event listener
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        attachMicButtonListener();
+    });
+} else {
+    // DOM is already loaded
+    attachMicButtonListener();
+}
+
+function attachMicButtonListener() {
+    const micButton = document.getElementById('injectedMicButton');
+    if (micButton) {
+        micButton.addEventListener('click', function(event) {
+            console.log('Microphone button clicked!');
+            event.preventDefault();
+            toggleCall();
+        });
+        console.log('Microphone button event listener attached successfully');
+    } else {
+        console.error('Could not find injectedMicButton element');
+    }
+}
 
 function injectCSS() {
     const style = document.createElement('style');
     style.type = 'text/css';
 
     style.innerHTML = `
-        #micIcon {
-            
-            transition: fill 0.2s;
-        }
-
-        #micIcon.talking {
-            fill: green !important;
-        }
-
-        injectedMicButton {
+        #injectedMicButton {
             opacity: 0.1;
             transition: opacity 0.3s;
             cursor: pointer;
@@ -104,16 +118,19 @@ async function startCall(aiAgentAssociatedPhoneNumberOverride) {
 }
 
 function toggleCall(aiAgentAssociatedPhoneNumberOverride) {
+    console.log('toggleCall function called, callActive:', callActive);
     let aiAgentAssociatedPhoneNumberOverrideToUse = null;
     if (typeof aiAgentAssociatedPhoneNumberOverride === 'string') {
         aiAgentAssociatedPhoneNumberOverrideToUse = aiAgentAssociatedPhoneNumberOverride;
     }
     console.log("aiAgentAssociatedPhoneNumberOverride =", aiAgentAssociatedPhoneNumberOverrideToUse);
     if (callActive) {
+        console.log('Ending call...');
         if (connection) {
             connection.disconnect();
         }
     } else {
+        console.log('Starting call...');
         startCall(aiAgentAssociatedPhoneNumberOverrideToUse);
     }
 }
@@ -159,7 +176,6 @@ async function startMicDetection() {
             const volume = event.data;
             const micIcon = document.getElementById('micIcon');
             if (volume > 0.002) {
-                debugger;
                 micIcon.classList.add('talking');
             } else {
                 micIcon.classList.remove('talking');

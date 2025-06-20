@@ -5,25 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="./index.css" />
-  <script src="./colors.js"></script>
-  <script src="./modal.js"></script>
-  <script src="./inject.js"></script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.get('aiAgentId')) {
-      urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
-      window.location.search = urlParams;
-    }
-    
-    // Check for aiAgentId in URL params, then localStorage, then prompt
-    if (!urlParams.get('aiAgentId')) {
-      const savedAiAgentId = localStorage.getItem('aiAgentId');
-      if (!savedAiAgentId) {
-        urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
-        window.location.search = urlParams;
-      }
-    }
-  </script>
   <title>Cresta chat demo</title>
   <style type="text/css">
     html {
@@ -80,6 +61,11 @@
         <div class="form-group">
           <label for="headerIcon">Header Icon URL:</label>
           <input type="text" id="headerIcon" name="headerIcon" placeholder="e.g., https://example.com/icon.png">
+        </div>
+
+        <div class="form-group">
+          <label for="backgroundImage">Background Image URL:</label>
+          <input type="text" id="backgroundImage" name="backgroundImage" placeholder="e.g., https://example.com/background.png">
         </div>
         
         <div class="form-group">
@@ -146,5 +132,23 @@
     </div>
   </div>
 </body>
-
+<script src="./colors.js"></script>
+<script src="./modal.js"></script>
+<script src="./inject.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (!urlParams.get('aiAgentId')) {
+    urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
+    window.location.search = urlParams;
+  }
+  
+  // Check for aiAgentId in URL params, then localStorage, then prompt
+  if (!urlParams.get('aiAgentId')) {
+    const savedAiAgentId = localStorage.getItem('aiAgentId');
+    if (!savedAiAgentId) {
+      urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
+      window.location.search = urlParams;
+    }
+  }
+</script>
 </html>

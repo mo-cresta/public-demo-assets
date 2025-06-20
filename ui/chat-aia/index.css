@@ -3,7 +3,8 @@
     --text-on-primary: white;
     --visitor-bg: white;
     --text-on-visitor: black;
-    --content-bg-image: url("./images/verizon-troubleshooting.png");
+    --content-bg-image: none;
+    --content-bg-color: white;
 }
 
 #content {
@@ -14,8 +15,8 @@
     overflow-x: hidden;
     background-image: var(--content-bg-image);
     /* The image used */
-    background-color: #cccccc;
-    /* Used if the image is unavailable */
+    background-color: var(--content-bg-color);
+    /* Background color - white by default, gray when image is used */
     height: 500px;
     /* You must set a specified height */
   
