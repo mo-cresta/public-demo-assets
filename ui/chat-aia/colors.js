@@ -111,8 +111,8 @@ function handleFormSubmit(event) {
                 // Save namespace to localStorage
                 localStorage.setItem('namespace', value);
                 console.log('Namespace updated:', value);
-            } else if (property === 'chatIcon') {
-                // Save chat icon URL directly
+            } else if (property === 'chatIcon' || property === 'headerIcon') {
+                // Save icon URLs directly
                 updatedSettings[property] = value;
             } else if (Object.keys(defaultSettings).includes(property)) {
                 // Handle color properties
