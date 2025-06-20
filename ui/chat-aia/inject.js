@@ -25,13 +25,37 @@ function injectCSS() {
 
     style.innerHTML = `
         #micIcon {
-            fill: grey !important;
+            
             transition: fill 0.2s;
         }
 
         #micIcon.talking {
             fill: green !important;
         }
+
+        injectedMicButton {
+            opacity: 0.1;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        #injectedMicButton:hover {
+            opacity: 1;
+        }
+
+        #micIcon {
+            fill: grey !important;
+            transition: fill 0.2s;
+        }
+
+        #injectedMicButton:hover #micIcon {
+            fill: gray;
+        }
+
+        #micIcon.talking {
+            fill: green !important;
+        }
+
     `;
 
     document.head.appendChild(style);
