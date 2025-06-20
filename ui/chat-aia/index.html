@@ -44,8 +44,13 @@
       
       <form id="colorSettingsForm">
         <div class="form-group">
-          <label for="aiAgentId">AI Agent ID:</label>
-          <input type="text" id="aiAgentId" name="aiAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
+          <label for="chatAiAgentId">Chat AI Agent ID:</label>
+          <input type="text" id="chatAiAgentId" name="chatAiAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
+        </div>
+
+        <div class="form-group">
+          <label for="voiceAgentId">Voice Agent ID:</label>
+          <input type="text" id="voiceAgentId" name="voiceAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
         </div>
         
         <div class="form-group">
@@ -135,20 +140,20 @@
 <script src="./colors.js"></script>
 <script src="./modal.js"></script>
 <script src="./inject.js"></script>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  if (!urlParams.get('aiAgentId')) {
-    urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
-    window.location.search = urlParams;
-  }
-  
-  // Check for aiAgentId in URL params, then localStorage, then prompt
-  if (!urlParams.get('aiAgentId')) {
-    const savedAiAgentId = localStorage.getItem('aiAgentId');
-    if (!savedAiAgentId) {
-      urlParams.append('aiAgentId', window.prompt('enter AI Agent Id'));
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.get('chatAiAgentId') && !urlParams.get('aiAgentId')) {
+      urlParams.append('chatAiAgentId', window.prompt('enter Chat AI Agent Id'));
       window.location.search = urlParams;
     }
-  }
-</script>
+    
+    // Check for chatAiAgentId in URL params, then localStorage, then prompt
+    if (!urlParams.get('chatAiAgentId') && !urlParams.get('aiAgentId')) {
+      const savedChatAiAgentId = localStorage.getItem('chatAiAgentId') || localStorage.getItem('aiAgentId');
+      if (!savedChatAiAgentId) {
+        urlParams.append('chatAiAgentId', window.prompt('enter Chat AI Agent Id'));
+        window.location.search = urlParams;
+      }
+    }
+  </script>
 </html>

@@ -43,7 +43,8 @@
   // Wait for DOM to be ready before manipulating document.body
   function initializeMessenger() {
       // Get parameters from localStorage or use defaults
-      const aiAgentId = localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
+      const chatAiAgentId = localStorage.getItem('chatAiAgentId') || localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
+      const voiceAgentId = localStorage.getItem('voiceAgentId') || chatAiAgentId; // Use chatAiAgentId as fallback
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
       const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
       const headerIcon = localStorage.getItem('headerIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
@@ -56,7 +57,8 @@
       dfMessenger.setAttribute('chat-icon', chatIcon);
       dfMessenger.setAttribute('header-icon', headerIcon);
       dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
-      dfMessenger.setAttribute('crestagpt-agent', aiAgentId);
+      dfMessenger.setAttribute('crestagpt-agent', chatAiAgentId);
+      dfMessenger.setAttribute('cresta-voice-agent', voiceAgentId);
       dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
       dfMessenger.setAttribute('crestagpt-customer', customerName);
       dfMessenger.setAttribute('crestagpt-profile', namespace);
