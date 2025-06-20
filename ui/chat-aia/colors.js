@@ -69,6 +69,45 @@ function convertColor(colorValue) {
     return computedColor !== 'rgba(0, 0, 0, 0)' ? computedColor : null;
 }
 
+// Function to convert any color format to hex for color pickers
+function convertToHex(colorValue) {
+    if (!colorValue || colorValue.trim() === '') return null;
+    
+    const value = colorValue.trim();
+    
+    // If it's already hex, return as is
+    if (value.startsWith('#')) {
+        return value;
+    }
+    
+    // Create a temporary element to get computed color and convert to hex
+    const tempDiv = document.createElement('div');
+    tempDiv.style.color = value;
+    tempDiv.style.display = 'none';
+    document.body.appendChild(tempDiv);
+    const computedColor = getComputedStyle(tempDiv).color;
+    document.body.removeChild(tempDiv);
+    
+    // Convert rgb/rgba to hex
+    if (computedColor && computedColor !== 'rgba(0, 0, 0, 0)') {
+        return rgbToHex(computedColor);
+    }
+    
+    return null;
+}
+
+// Helper function to convert rgb/rgba strings to hex
+function rgbToHex(rgb) {
+    const result = rgb.match(/\d+/g);
+    if (result && result.length >= 3) {
+        const r = parseInt(result[0]);
+        const g = parseInt(result[1]);
+        const b = parseInt(result[2]);
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    return rgb; // Return original if conversion fails
+}
+
 // Function to handle settings button click
 function handleColorSettings() {
     const currentSettings = getCurrentSettings();
@@ -88,18 +127,18 @@ function closeSettingsModal() {
 
 // Function to populate form with current settings
 function populateForm(settings) {
-    // Populate all the new color fields
-    document.getElementById('titlebarColor').value = settings.titlebarColor || '';
-    document.getElementById('chatBackgroundColor').value = settings.chatBackgroundColor || '';
-    document.getElementById('titlebarFontColor').value = settings.titlebarFontColor || '';
-    document.getElementById('closeIconColor').value = settings.closeIconColor || '';
-    document.getElementById('userMessageBackgroundColor').value = settings.userMessageBackgroundColor || '';
-    document.getElementById('userMessageTextColor').value = settings.userMessageTextColor || '';
-    document.getElementById('aiMessageBackgroundColor').value = settings.aiMessageBackgroundColor || '';
-    document.getElementById('aiMessageTextColor').value = settings.aiMessageTextColor || '';
-    document.getElementById('sendIconColor').value = settings.sendIconColor || '';
-    document.getElementById('inputBorderColor').value = settings.inputBorderColor || '';
-    document.getElementById('widgetBackgroundColor').value = settings.widgetBackgroundColor || '';
+    // Populate all the color fields (convert to hex if needed for color pickers)
+    document.getElementById('titlebarColor').value = convertToHex(settings.titlebarColor) || '#000000';
+    document.getElementById('chatBackgroundColor').value = convertToHex(settings.chatBackgroundColor) || '#f1f2f4';
+    document.getElementById('titlebarFontColor').value = convertToHex(settings.titlebarFontColor) || '#ffffff';
+    document.getElementById('closeIconColor').value = convertToHex(settings.closeIconColor) || '#000000';
+    document.getElementById('userMessageBackgroundColor').value = convertToHex(settings.userMessageBackgroundColor) || '#000000';
+    document.getElementById('userMessageTextColor').value = convertToHex(settings.userMessageTextColor) || '#ffffff';
+    document.getElementById('aiMessageBackgroundColor').value = convertToHex(settings.aiMessageBackgroundColor) || '#000000';
+    document.getElementById('aiMessageTextColor').value = convertToHex(settings.aiMessageTextColor) || '#000000';
+    document.getElementById('sendIconColor').value = convertToHex(settings.sendIconColor) || '#000000';
+    document.getElementById('inputBorderColor').value = convertToHex(settings.inputBorderColor) || '#000000';
+    document.getElementById('widgetBackgroundColor').value = convertToHex(settings.widgetBackgroundColor) || '#ffffff';
     document.getElementById('chatIcon').value = settings.chatIcon || '';
     document.getElementById('headerIcon').value = settings.headerIcon || '';
     document.getElementById('backgroundImage').value = settings.backgroundImage || '';
