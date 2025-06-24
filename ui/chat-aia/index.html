@@ -44,13 +44,8 @@
       
       <form id="colorSettingsForm">
         <div class="form-group">
-          <label for="chatAiAgentId">Chat AI Agent ID:</label>
-          <input type="text" id="chatAiAgentId" name="chatAiAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
-        </div>
-
-        <div class="form-group">
-          <label for="voiceAgentId">Voice Agent ID:</label>
-          <input type="text" id="voiceAgentId" name="voiceAgentId" placeholder="e.g., b414de7f-7b26-42e0-8489-0834619014ed">
+          <label for="associatedPhoneNumber">Associated Phone Number:</label>
+          <input type="text" id="associatedPhoneNumber" name="associatedPhoneNumber" placeholder="e.g., 17017604130">
         </div>
         
         <div class="form-group">
@@ -142,17 +137,16 @@
 <script src="./inject.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.get('chatAiAgentId') && !urlParams.get('aiAgentId')) {
-      urlParams.append('chatAiAgentId', window.prompt('enter Chat AI Agent Id'));
-      window.location.search = urlParams;
-    }
     
-    // Check for chatAiAgentId in URL params, then localStorage, then prompt
-    if (!urlParams.get('chatAiAgentId') && !urlParams.get('aiAgentId')) {
-      const savedChatAiAgentId = localStorage.getItem('chatAiAgentId') || localStorage.getItem('aiAgentId');
-      if (!savedChatAiAgentId) {
-        urlParams.append('chatAiAgentId', window.prompt('enter Chat AI Agent Id'));
-        window.location.search = urlParams;
+    // Check for aiAgentAssociatedPhoneNumber in URL params, then localStorage, then prompt
+    if (!urlParams.get('aiAgentAssociatedPhoneNumber')) {
+      const savedPhoneNumber = localStorage.getItem('aiAgentAssociatedPhoneNumber');
+      if (!savedPhoneNumber) {
+        const phoneNumber = window.prompt('enter Associated Phone Number (e.g. 17017604130)');
+        if (phoneNumber) {
+          urlParams.append('aiAgentAssociatedPhoneNumber', phoneNumber);
+          window.location.search = urlParams;
+        }
       }
     }
   </script>

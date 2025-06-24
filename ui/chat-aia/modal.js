@@ -41,10 +41,30 @@
   })();
   
   // Wait for DOM to be ready before manipulating document.body
-  function initializeMessenger() {
-      // Get parameters from localStorage or use defaults
-      const chatAiAgentId = localStorage.getItem('chatAiAgentId') || localStorage.getItem('aiAgentId') || 'b414de7f-7b26-42e0-8489-0834619014ed';
-      const voiceAgentId = localStorage.getItem('voiceAgentId') || chatAiAgentId; // Use chatAiAgentId as fallback
+  async function initializeMessenger() {
+      // Get phone number and fetch agent IDs
+      const urlParams = new URLSearchParams(window.location.search);
+      const phoneNumber = urlParams.get('aiAgentAssociatedPhoneNumber') || localStorage.getItem('aiAgentAssociatedPhoneNumber');
+      
+      let chatAiAgentId = 'b414de7f-7b26-42e0-8489-0834619014ed'; // default fallback
+      let voiceAgentId = chatAiAgentId; // default fallback
+      
+      if (phoneNumber) {
+          try {
+              const response = await fetch(`https://connecttocresta-9063.twil.io/map_call_to_specific_ID?lookupPhoneNumber=${phoneNumber}`);
+              if (response.ok) {
+                  const data = await response.json();
+                  chatAiAgentId = data.chatAiAgentId || chatAiAgentId;
+                  voiceAgentId = data.voiceAiAgentId || voiceAgentId;
+                  console.log('Agent IDs fetched for modal:', { chatAiAgentId, voiceAgentId });
+              } else {
+                  console.error('Failed to fetch agent IDs, using defaults');
+              }
+          } catch (error) {
+              console.error('Error fetching agent IDs for modal:', error);
+          }
+      }
+      
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
       const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
       const headerIcon = localStorage.getItem('headerIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';

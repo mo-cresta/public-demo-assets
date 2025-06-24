@@ -206,6 +206,24 @@ function stopMicDetection() {
     micIcon.classList.remove('talking');
 }
 
+async function fetchAgentIds(phoneNumber) {
+    try {
+        const response = await fetch(`https://connecttocresta-9063.twil.io/map_call_to_specific_ID?lookupPhoneNumber=${phoneNumber}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Agent IDs fetched:', data);
+        return {
+            voiceAiAgentId: data.voiceAiAgentId,
+            chatAiAgentId: data.chatAiAgentId
+        };
+    } catch (error) {
+        console.error('Error fetching agent IDs:', error);
+        return null;
+    }
+}
+
 function getAssociatedPhoneNumber() {
     const urlParams = new URLSearchParams(window.location.search);
     // can use local storage instead of session storage because SEs keep their own phone numbers and don't change them

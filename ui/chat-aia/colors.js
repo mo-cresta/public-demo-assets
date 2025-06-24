@@ -153,12 +153,10 @@ function populateForm(settings) {
     document.getElementById('headerIcon').value = settings.headerIcon || '';
     document.getElementById('backgroundImage').value = settings.backgroundImage || '';
     
-    // Populate chatAiAgentId, voiceAgentId and namespace from localStorage
-    const chatAiAgentId = localStorage.getItem('chatAiAgentId') || '';
-    const voiceAgentId = localStorage.getItem('voiceAgentId') || '';
+    // Populate associatedPhoneNumber and namespace from localStorage
+    const associatedPhoneNumber = localStorage.getItem('aiAgentAssociatedPhoneNumber') || '';
     const namespace = localStorage.getItem('namespace') || '';
-    document.getElementById('chatAiAgentId').value = chatAiAgentId;
-    document.getElementById('voiceAgentId').value = voiceAgentId;
+    document.getElementById('associatedPhoneNumber').value = associatedPhoneNumber;
     document.getElementById('namespace').value = namespace;
 }
 
@@ -175,14 +173,10 @@ function handleFormSubmit(event) {
             console.log(`Processing form field: ${property} = ${value}`);
             if (!value.trim()) continue; // Skip empty values
             
-            if (property === 'chatAiAgentId') {
-                // Save chatAiAgentId to localStorage
-                localStorage.setItem('chatAiAgentId', value);
-                console.log('Chat AI Agent ID updated:', value);
-            } else if (property === 'voiceAgentId') {
-                // Save voiceAgentId to localStorage
-                localStorage.setItem('voiceAgentId', value);
-                console.log('Voice Agent ID updated:', value);
+            if (property === 'associatedPhoneNumber') {
+                // Save associatedPhoneNumber to localStorage
+                localStorage.setItem('aiAgentAssociatedPhoneNumber', value);
+                console.log('Associated Phone Number updated:', value);
             } else if (property === 'namespace') {
                 // Save namespace to localStorage
                 localStorage.setItem('namespace', value);
@@ -226,8 +220,7 @@ function resetToDefaults() {
         Object.keys(defaultSettings).forEach(key => {
             localStorage.removeItem(key);
         });
-        localStorage.removeItem('chatAiAgentId');
-        localStorage.removeItem('voiceAgentId');
+        localStorage.removeItem('aiAgentAssociatedPhoneNumber');
         localStorage.removeItem('namespace');
         
         // Update with defaults
@@ -320,18 +313,12 @@ function initializeBackgroundImage() {
 function initializeUrlParams() {
     try {
         const urlParams = new URLSearchParams(window.location.search);
-        const chatAiAgentId = urlParams.get('chatAiAgentId') || urlParams.get('aiAgentId'); // Support both old and new param names
-        const voiceAgentId = urlParams.get('voiceAgentId');
+        const phoneNumber = urlParams.get('aiAgentAssociatedPhoneNumber');
         const namespace = urlParams.get('namespace') || 'virtual-agent-sandbox';
         
-        if (chatAiAgentId) {
-            localStorage.setItem('chatAiAgentId', chatAiAgentId);
-            console.log('Chat AI Agent ID saved:', chatAiAgentId);
-        }
-        
-        if (voiceAgentId) {
-            localStorage.setItem('voiceAgentId', voiceAgentId);
-            console.log('Voice Agent ID saved:', voiceAgentId);
+        if (phoneNumber) {
+            localStorage.setItem('aiAgentAssociatedPhoneNumber', phoneNumber);
+            console.log('Associated Phone Number saved:', phoneNumber);
         }
         
         if (namespace) {
