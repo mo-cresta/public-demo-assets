@@ -71,15 +71,13 @@
             #crestaInjectedMicButton {
                 position: fixed;
                 bottom: 20px;
-                right: 80px;
+                left: 80px;
                 z-index: 9999;
+                width: 24px;
+                height: 24px;
                 opacity: 0.3;
                 transition: opacity 0.3s;
                 cursor: pointer;
-                background: rgba(255, 255, 255, 0.9);
-                border-radius: 50%;
-                padding: 8px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             }
 
             #crestaInjectedMicButton:hover {
@@ -92,7 +90,7 @@
             }
 
             #crestaInjectedMicButton:hover #crestaMicIcon {
-                fill: #333;
+                fill: gray;
             }
 
             #crestaMicIcon.talking {
