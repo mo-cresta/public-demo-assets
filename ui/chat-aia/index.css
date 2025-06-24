@@ -68,20 +68,24 @@
 /* Settings buttons */
 .settings-buttons {
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    bottom: 20px;
+    left: 20px;
     display: flex;
     gap: 10px;
     z-index: 9999;
 }
 
 .settings-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
     opacity: 0.1;
     transition: opacity 0.3s;
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .settings-button:hover {
