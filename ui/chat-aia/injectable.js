@@ -62,6 +62,23 @@
         style.id = 'cresta-injectable-styles';
 
         style.innerHTML = `
+            /* CSS Variables */
+            :root {
+                --cresta-primary-color: ${localStorage.getItem('titlebarColor') || '#a21523'};
+                --cresta-text-on-primary: ${localStorage.getItem('titlebarFontColor') || 'white'};
+                --cresta-chat-bg-color: ${localStorage.getItem('chatBackgroundColor') || '#f1f2f4'};
+                --cresta-close-icon-color: ${localStorage.getItem('closeIconColor') || 'black'};
+                --cresta-user-msg-bg-color: ${localStorage.getItem('userMessageBackgroundColor') || 'black'};
+                --cresta-user-msg-text-color: ${localStorage.getItem('userMessageTextColor') || 'white'};
+                --cresta-ai-msg-bg-color: ${localStorage.getItem('aiMessageBackgroundColor') || 'black'};
+                --cresta-ai-msg-text-color: ${localStorage.getItem('aiMessageTextColor') || 'black'};
+                --cresta-send-icon-color: ${localStorage.getItem('sendIconColor') || 'black'};
+                --cresta-input-border-color: ${localStorage.getItem('inputBorderColor') || 'black'};
+                --cresta-widget-bg-color: ${localStorage.getItem('widgetBackgroundColor') || 'white'};
+                --ai-message-background-color: ${localStorage.getItem('aiMessageBackgroundColor') || 'black'};
+                --ai-message-text-color: ${localStorage.getItem('aiMessageTextColor') || 'black'};
+            }
+
             /* Prevent multiple injections */
             #cresta-injectable-styles ~ #cresta-injectable-styles {
                 display: none;
@@ -69,50 +86,63 @@
 
             /* Microphone button styles */
             #crestaInjectedMicButton {
-                position: fixed;
-                bottom: 20px;
-                left: 80px;
-                z-index: 9999;
-                width: 24px;
-                height: 24px;
-                opacity: 0.3;
-                transition: opacity 0.3s;
-                cursor: pointer;
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 50px !important;
+                z-index: 2147483647 !important;
+                width: 40px !important;
+                height: 40px !important;
+                opacity: 0.3 !important;
+                transition: opacity 0.3s !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 4px !important;
             }
 
             #crestaInjectedMicButton:hover {
-                opacity: 1;
+                opacity: 1 !important;
+                background: rgba(255, 255, 255, 0.2) !important;
             }
 
             #crestaMicIcon {
-                fill: grey !important;
-                transition: fill 0.2s;
+                fill: #666666 !important;
+                transition: fill 0.2s !important;
+                width: 100% !important;
+                height: 100% !important;
+                display: block !important;
             }
 
             #crestaInjectedMicButton:hover #crestaMicIcon {
-                fill: gray;
+                fill: #333333 !important;
             }
 
             #crestaMicIcon.talking {
-                fill: green !important;
+                fill: #00ff00 !important;
             }
 
             /* Settings button */
             #crestaSettingsButton {
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                z-index: 9999;
-                background: none;
-                border: none;
-                font-size: 24px;
-                opacity: 0.1;
-                transition: opacity 0.3s;
-                cursor: pointer;
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                z-index: 2147483647 !important;
+                background: rgba(255, 255, 255, 0.1) !important;
+                border: none !important;
+                font-size: 24px !important;
+                opacity: 0.3 !important;
+                transition: opacity 0.3s !important;
+                cursor: pointer !important;
+                padding: 4px !important;
+                border-radius: 4px !important;
+                display: block !important;
             }
 
             #crestaSettingsButton:hover {
-                opacity: 1;
+                opacity: 1 !important;
+                background: rgba(255, 255, 255, 0.2) !important;
             }
 
             /* Modal styles */
@@ -129,23 +159,59 @@
             }
 
             .cresta-modal-content {
-                background-color: #fefefe;
+                background-color: white;
                 margin: 5% auto;
                 padding: 0;
-                border: none;
+                border-radius: 12px;
                 width: 90%;
-                max-width: 600px;
-                border-radius: 10px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                max-height: 80vh;
+                max-width: 500px;
+                max-height: 85vh;
                 overflow-y: auto;
+                box-shadow: 
+                    0 10px 30px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+                    inset 1px 0 0 rgba(255, 255, 255, 0.3),
+                    inset -1px 0 0 rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                animation: modalFadeIn 0.3s ease-out;
+            }
+
+            /* Custom scrollbar styling for the modal */
+            .cresta-modal-content::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .cresta-modal-content::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 0 12px 12px 0;
+            }
+
+            .cresta-modal-content::-webkit-scrollbar-thumb {
+                background: #c1c1c1;
+                border-radius: 4px;
+            }
+
+            .cresta-modal-content::-webkit-scrollbar-thumb:hover {
+                background: #a8a8a8;
+            }
+
+            @keyframes modalFadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-50px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
             }
 
             .cresta-modal-header {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
+                background: linear-gradient(135deg, var(--cresta-primary-color), var(--cresta-primary-color));
+                color: var(--cresta-text-on-primary);
                 padding: 20px;
-                border-radius: 10px 10px 0 0;
+                border-radius: 12px 12px 0 0;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -153,33 +219,28 @@
 
             .cresta-modal-header h2 {
                 margin: 0;
-                font-size: 24px;
+                font-size: 1.5em;
                 font-weight: 600;
             }
 
             .cresta-close {
-                color: white;
+                color: var(--cresta-text-on-primary);
                 font-size: 28px;
                 font-weight: bold;
                 cursor: pointer;
+                opacity: 0.7;
+                transition: opacity 0.2s;
                 background: none;
                 border: none;
                 padding: 0;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: background 0.3s;
             }
 
             .cresta-close:hover {
-                background: rgba(255,255,255,0.2);
+                opacity: 1;
             }
 
             .cresta-form-container {
-                padding: 30px;
+                padding: 25px 25px 35px 25px; /* Extra bottom padding for scrolling comfort */
             }
 
             .cresta-form-group {
@@ -195,24 +256,149 @@
             }
 
             .cresta-form-group input {
-                width: 100%;
-                padding: 12px;
-                border: 2px solid #e1e5e9;
+                width: 100% !important;
+                padding: 12px 45px 12px 45px !important;
+                border: 2px solid #e1e5e9 !important;
+                border-radius: 8px !important;
+                font-size: 14px !important;
+                transition: border-color 0.2s, box-shadow 0.2s !important;
+                box-sizing: border-box !important;
+                height: 44px !important;
+                min-height: 44px !important;
+                max-height: 44px !important;
+                line-height: 1.2 !important;
+                overflow: hidden !important;
+                white-space: nowrap !important;
+                text-overflow: ellipsis !important;
+                resize: none !important;
+            }
+
+            /* More specific selectors to override any conflicting styles */
+            .cresta-form-group input[type="text"],
+            .cresta-form-group input[type="email"],
+            .cresta-form-group input[type="url"],
+            .cresta-form-group input[type="tel"],
+            .cresta-form-group input[type="number"] {
+                height: 44px !important;
+                min-height: 44px !important;
+                max-height: 44px !important;
+                overflow: hidden !important;
+                white-space: nowrap !important;
+                resize: none !important;
+            }
+
+            /* Nuclear option - super specific targeting */
+            #crestaSettingsModal .cresta-form-group input:not([type="color"]) {
+                height: 44px !important;
+                min-height: 44px !important;
+                max-height: 44px !important;
+                padding: 12px 45px 12px 45px !important;
+                overflow: hidden !important;
+                white-space: nowrap !important;
+                resize: none !important;
+                vertical-align: top !important;
+            }
+
+            /* Force textarea elements to be single line */
+            #crestaSettingsModal .cresta-form-group textarea,
+            #crestaSettingsModal textarea:not([rows]),
+            .cresta-form-group textarea,
+            textarea:not([rows]) {
+                height: 44px !important;
+                min-height: 44px !important;
+                max-height: 44px !important;
+                overflow: hidden !important;
+                white-space: nowrap !important;
+                resize: none !important;
+                vertical-align: top !important;
+                padding: 12px 45px 12px 45px !important;
+                border: 2px solid #e1e5e9 !important;
+                border-radius: 8px !important;
+                font-size: 14px !important;
+                box-sizing: border-box !important;
+                line-height: 1.2 !important;
+                text-overflow: ellipsis !important;
+            }
+
+            /* Ultra-specific override to ensure left padding is always 45px */
+            #crestaSettingsModal .cresta-form-group input,
+            #crestaSettingsModal .cresta-form-group textarea,
+            #crestaSettingsModal input,
+            #crestaSettingsModal textarea {
+                padding-left: 45px !important;
+                padding-right: 45px !important;
+            }
+
+            /* Hide or reposition any overlapping icons in input fields */
+            .cresta-form-group .input-group-append,
+            .cresta-form-group .input-group-text,
+            .cresta-form-group svg,
+            .cresta-form-group .more-icon,
+            .cresta-form-group .dropdown-toggle::after,
+            #crestaSettingsModal svg:not(.cresta-close):not(#crestaMicIcon) {
+                display: none !important;
+            }
+
+            /* If icons can't be hidden, position them properly */
+            .cresta-form-group {
+                position: relative !important;
+            }
+
+            .cresta-form-group svg {
+                position: absolute !important;
+                right: 8px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                z-index: 1 !important;
+                pointer-events: none !important;
+            }
+
+            /* Special styling for color picker inputs */
+            .cresta-form-group input[type="color"] {
+                height: 50px !important;
+                min-height: 50px !important;
+                max-height: 50px !important;
+                padding: 4px !important;
+                border: 2px solid #e1e5e9 !important;
+                border-radius: 8px !important;
+                background: none !important;
+                cursor: pointer !important;
+                overflow: visible !important;
+                white-space: normal !important;
+                text-overflow: clip !important;
+                resize: none !important;
+            }
+
+            .cresta-form-group input[type="color"]::-webkit-color-swatch-wrapper {
+                padding: 0;
                 border-radius: 6px;
-                font-size: 14px;
-                transition: border-color 0.3s, box-shadow 0.3s;
-                box-sizing: border-box;
+                border: none;
+            }
+
+            .cresta-form-group input[type="color"]::-webkit-color-swatch {
+                border: none;
+                border-radius: 6px;
+            }
+
+            .cresta-form-group input[type="color"]::-moz-color-swatch {
+                border: none;
+                border-radius: 6px;
             }
 
             .cresta-form-group input:focus {
                 outline: none;
-                border-color: #667eea;
-                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                border-color: var(--cresta-primary-color);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--cresta-primary-color) 10%, transparent);
+            }
+
+            .cresta-form-group input::placeholder {
+                color: #999;
+                font-style: italic;
             }
 
             .cresta-form-buttons {
                 display: flex;
-                gap: 10px;
+                gap: 12px;
                 justify-content: flex-end;
                 margin-top: 30px;
                 padding-top: 20px;
@@ -220,52 +406,74 @@
             }
 
             .cresta-btn {
-                padding: 12px 24px;
+                padding: 12px 20px;
                 border: none;
                 border-radius: 6px;
                 font-size: 14px;
                 font-weight: 600;
                 cursor: pointer;
-                transition: all 0.3s;
+                transition: all 0.2s;
             }
 
             .cresta-btn-primary {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
+                background-color: var(--cresta-primary-color);
+                color: var(--cresta-text-on-primary);
             }
 
             .cresta-btn-primary:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                background-color: var(--cresta-primary-color);
+                opacity: 0.9;
+                transform: translateY(-1px);
             }
 
             .cresta-btn-secondary {
-                background: #6c757d;
-                color: white;
+                background-color: #f8f9fa;
+                color: #495057;
+                border: 1px solid #dee2e6;
             }
 
             .cresta-btn-secondary:hover {
-                background: #5a6268;
+                background-color: #e9ecef;
+                transform: translateY(-1px);
             }
 
             .cresta-btn-danger {
-                background: #dc3545;
-                color: white;
+                background-color: #f8f9fa;
+                color: #495057;
+                border: 1px solid #dee2e6;
             }
 
             .cresta-btn-danger:hover {
-                background: #c82333;
+                background-color: #e9ecef;
+                transform: translateY(-1px);
             }
 
-            /* Toast notifications */
+            /* Chat widget styles */
+            df-messenger {
+                --df-messenger-button-titlebar-color: var(--cresta-primary-color) !important;
+                --df-messenger-chat-background-color: var(--cresta-chat-bg-color) !important;
+                --df-messenger-button-titlebar-font-color: var(--cresta-text-on-primary) !important;
+                --df-messenger-minimized-chat-close-icon-color: var(--cresta-close-icon-color) !important;
+                --df-messenger-user-message-background-color: var(--cresta-user-msg-bg-color) !important;
+                --df-messenger-user-message-text-color: var(--cresta-user-msg-text-color) !important;
+                --ai-message-background-color: var(--ai-message-background-color) !important;
+                --ai-message-text-color: var(--ai-message-text-color) !important;
+                --ai-message-window-desktop-width: 500px !important;
+                --ai-message-window-desktop-height: 600px !important;
+                --df-messenger-send-icon-color: var(--cresta-send-icon-color) !important;
+                --df-messenger-input-border-color: var(--cresta-input-border-color) !important;
+                --widget-messenger-background-color: var(--cresta-widget-bg-color) !important;
+            }
+
+            /* Toast notification animation */
             @keyframes toastSlideIn {
                 from {
-                    transform: translateX(100%);
                     opacity: 0;
+                    transform: translateX(100px);
                 }
                 to {
-                    transform: translateX(0);
                     opacity: 1;
+                    transform: translateX(0);
                 }
             }
         `;
@@ -283,19 +491,15 @@
         if (existingMic) existingMic.remove();
         if (existingSettings) existingSettings.remove();
         if (existingModal) existingModal.remove();
-
-        // Create microphone button
-        const micButton = document.createElement('svg');
+    
+        // Create microphone button container
+        const micButton = document.createElement('div');
         micButton.id = 'crestaInjectedMicButton';
-        micButton.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-        micButton.setAttribute('viewBox', '0 0 24 24');
-        micButton.setAttribute('width', '24');
-        micButton.setAttribute('height', '24');
-
-        const micPath = document.createElement('path');
-        micPath.id = 'crestaMicIcon';
-        micPath.setAttribute('d', 'M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zm-5 9a7 7 0 0 0 7-7h2a9 9 0 0 1-18 0h2a7 7 0 0 0 7 7z');
-        micButton.appendChild(micPath);
+        micButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path id="crestaMicIcon" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zm-5 9a7 7 0 0 0 7-7h2a9 9 0 0 1-18 0h2a7 7 0 0 0 7 7z" fill="currentColor"/>
+            </svg>
+        `;
 
         // Create settings button
         const settingsButton = document.createElement('button');
@@ -588,11 +792,31 @@
             }
         });
         
+        // Update CSS variables immediately
+        updateCSSVariables();
+        
         if (settings.backgroundImage) {
             applyBackgroundImage(settings.backgroundImage);
         }
         
         console.log('Settings saved to localStorage:', settings);
+    }
+
+    function updateCSSVariables() {
+        const root = document.documentElement;
+        root.style.setProperty('--cresta-primary-color', localStorage.getItem('titlebarColor') || '#a21523');
+        root.style.setProperty('--cresta-text-on-primary', localStorage.getItem('titlebarFontColor') || 'white');
+        root.style.setProperty('--cresta-chat-bg-color', localStorage.getItem('chatBackgroundColor') || '#f1f2f4');
+        root.style.setProperty('--cresta-close-icon-color', localStorage.getItem('closeIconColor') || 'black');
+        root.style.setProperty('--cresta-user-msg-bg-color', localStorage.getItem('userMessageBackgroundColor') || 'black');
+        root.style.setProperty('--cresta-user-msg-text-color', localStorage.getItem('userMessageTextColor') || 'white');
+        root.style.setProperty('--cresta-ai-msg-bg-color', localStorage.getItem('aiMessageBackgroundColor') || 'black');
+        root.style.setProperty('--cresta-ai-msg-text-color', localStorage.getItem('aiMessageTextColor') || 'black');
+        root.style.setProperty('--cresta-send-icon-color', localStorage.getItem('sendIconColor') || 'black');
+        root.style.setProperty('--cresta-input-border-color', localStorage.getItem('inputBorderColor') || 'black');
+        root.style.setProperty('--cresta-widget-bg-color', localStorage.getItem('widgetBackgroundColor') || 'white');
+        root.style.setProperty('--ai-message-background-color', localStorage.getItem('aiMessageBackgroundColor') || 'black');
+        root.style.setProperty('--ai-message-text-color', localStorage.getItem('aiMessageTextColor') || 'black');
     }
 
     function applyBackgroundImage(imageUrl) {
@@ -916,6 +1140,7 @@
             
             // Initialize UI first
             injectCSS();
+            updateCSSVariables(); // Apply any existing settings
             createUI();
             attachEventListeners();
             
