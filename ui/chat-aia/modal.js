@@ -46,7 +46,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const phoneNumber = urlParams.get('aiAgentAssociatedPhoneNumber') || localStorage.getItem('aiAgentAssociatedPhoneNumber');
       
-      let chatAiAgentId = 'b414de7f-7b26-42e0-8489-0834619014ed'; // default fallback
+      let chatAiAgentId = ''; // default fallback
       let voiceAgentId = chatAiAgentId; // default fallback
       
       if (phoneNumber) {
