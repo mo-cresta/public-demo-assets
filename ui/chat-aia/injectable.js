@@ -957,15 +957,15 @@
         const urlParams = new URLSearchParams(window.location.search);
         const phoneNumber = urlParams.get('aiAgentAssociatedPhoneNumber') || localStorage.getItem('aiAgentAssociatedPhoneNumber');
         
-        let chatAiAgentId = 'b414de7f-7b26-42e0-8489-0834619014ed';
-        let voiceAgentId = chatAiAgentId;
+        let chatAiAgentId = '01966042-7272-7049-9b8e-28a51a77b4e4';
+        let voiceAgentId = '01966042-7272-7049-9b8e-28a51a77b4e4';
         
         if (phoneNumber) {
             try {
                 const agentIds = await fetchAgentIds(phoneNumber);
                 if (agentIds) {
-                    chatAiAgentId = agentIds.chatAiAgentId || chatAiAgentId;
-                    voiceAgentId = agentIds.voiceAiAgentId || voiceAgentId;
+                    chatAiAgentId = chatAiAgentId;
+                    voiceAgentId = voiceAgentId;
                     console.log('Agent IDs fetched for modal:', { chatAiAgentId, voiceAgentId });
                 }
             } catch (error) {
