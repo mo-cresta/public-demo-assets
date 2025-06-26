@@ -257,7 +257,7 @@
 
             .cresta-form-group input {
                 width: 100% !important;
-                padding: 12px 45px 12px 45px !important;
+                padding: 12px !important;
                 border: 2px solid #e1e5e9 !important;
                 border-radius: 8px !important;
                 font-size: 14px !important;
@@ -292,7 +292,7 @@
                 height: 44px !important;
                 min-height: 44px !important;
                 max-height: 44px !important;
-                padding: 12px 45px 12px 45px !important;
+                padding: 12px !important;
                 overflow: hidden !important;
                 white-space: nowrap !important;
                 resize: none !important;
@@ -311,7 +311,7 @@
                 white-space: nowrap !important;
                 resize: none !important;
                 vertical-align: top !important;
-                padding: 12px 45px 12px 45px !important;
+                padding: 12px !important;
                 border: 2px solid #e1e5e9 !important;
                 border-radius: 8px !important;
                 font-size: 14px !important;
@@ -320,13 +320,13 @@
                 text-overflow: ellipsis !important;
             }
 
-            /* Ultra-specific override to ensure left padding is always 45px */
+            /* Ultra-specific override to ensure normal padding */
             #crestaSettingsModal .cresta-form-group input,
             #crestaSettingsModal .cresta-form-group textarea,
             #crestaSettingsModal input,
             #crestaSettingsModal textarea {
-                padding-left: 45px !important;
-                padding-right: 45px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
             }
 
             /* Hide or reposition any overlapping icons in input fields */
@@ -987,7 +987,7 @@
         dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
         dfMessenger.setAttribute('crestagpt-agent', chatAiAgentId);
         dfMessenger.setAttribute('cresta-voice-agent', voiceAgentId);
-        dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
+        dfMessenger.setAttribute("twilio-app-sid", "APcef9cfbaaed1b5d8e6a7152359d6586d");
         dfMessenger.setAttribute('crestagpt-customer', customerName);
         dfMessenger.setAttribute('crestagpt-profile', namespace);
         dfMessenger.setAttribute('crestagpt-usecase', useCase);

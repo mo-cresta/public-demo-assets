@@ -79,7 +79,7 @@
       dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
       dfMessenger.setAttribute('crestagpt-agent', chatAiAgentId);
       dfMessenger.setAttribute('cresta-voice-agent', voiceAgentId);
-      dfMessenger.setAttribute("twilio-app-sid", "APe5554d84b6d9b36b35c7abb764a0df65");
+      dfMessenger.setAttribute("twilio-app-sid", "APcef9cfbaaed1b5d8e6a7152359d6586d");
       dfMessenger.setAttribute('crestagpt-customer', customerName);
       dfMessenger.setAttribute('crestagpt-profile', namespace);
       dfMessenger.setAttribute('crestagpt-usecase', useCase);
