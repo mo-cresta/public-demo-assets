@@ -80,6 +80,7 @@
       dfMessenger.setAttribute('crestagpt-agent', chatAiAgentId);
       dfMessenger.setAttribute('cresta-voice-agent', voiceAgentId);
       dfMessenger.setAttribute("twilio-app-sid", "APcef9cfbaaed1b5d8e6a7152359d6586d");
+      dfMessenger.setAttribute("custom-twilio-call-params", `{"From": "webclient", "origin": "chatwidget", "To": "${phoneNumber}"}`);
       dfMessenger.setAttribute('crestagpt-customer', customerName);
       dfMessenger.setAttribute('crestagpt-profile', namespace);
       dfMessenger.setAttribute('crestagpt-usecase', useCase);
