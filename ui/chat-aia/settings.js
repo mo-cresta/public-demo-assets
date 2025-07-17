@@ -153,11 +153,13 @@ function populateForm(settings) {
     document.getElementById('headerIcon').value = settings.headerIcon || '';
     document.getElementById('backgroundImage').value = settings.backgroundImage || '';
     
-    // Populate associatedPhoneNumber and namespace from localStorage
+    // Populate associatedPhoneNumber, namespace, and chatTitle from localStorage
     const associatedPhoneNumber = localStorage.getItem('aiAgentAssociatedPhoneNumber') || '';
     const namespace = localStorage.getItem('namespace') || '';
+    const chatTitle = localStorage.getItem('chatTitle') || '';
     document.getElementById('associatedPhoneNumber').value = associatedPhoneNumber;
     document.getElementById('namespace').value = namespace;
+    document.getElementById('chatTitle').value = chatTitle;
 }
 
 // Helper function to process icon URLs
@@ -192,6 +194,10 @@ function handleFormSubmit(event) {
                 // Save namespace to localStorage
                 localStorage.setItem('namespace', value);
                 console.log('Namespace updated:', value);
+            } else if (property === 'chatTitle') {
+                // Save chatTitle to localStorage
+                localStorage.setItem('chatTitle', value);
+                console.log('Chat Title updated:', value);
             } else if (property === 'chatIcon' || property === 'headerIcon' || property === 'backgroundImage') {
                 // Process URLs (auto-prepend path for icon filenames)
                 const processedValue = processIconUrl(value, property);
@@ -234,6 +240,7 @@ function resetToDefaults() {
         });
         localStorage.removeItem('aiAgentAssociatedPhoneNumber');
         localStorage.removeItem('namespace');
+        localStorage.removeItem('chatTitle');
         
         // Update with defaults
         updateSettings(defaultSettings);

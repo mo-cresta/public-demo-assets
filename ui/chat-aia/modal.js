@@ -68,11 +68,12 @@
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
       const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
       const headerIcon = localStorage.getItem('headerIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
+      const chatTitle = localStorage.getItem('chatTitle') || 'Cresta';
       const useCase = 'virtual-agent-sandbox-voice';
       const customerName = 'cresta';
       
       const dfMessenger = document.createElement('df-messenger');
-      dfMessenger.setAttribute('chat-title', 'Cresta');
+      dfMessenger.setAttribute('chat-title', chatTitle);
       dfMessenger.setAttribute('persist-session', 'true');
       dfMessenger.setAttribute('chat-icon', chatIcon);
       dfMessenger.setAttribute('header-icon', headerIcon);
