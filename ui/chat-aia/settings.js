@@ -164,14 +164,10 @@ function populateForm(settings) {
 function processIconUrl(value, property) {
     if (!value.trim()) return value;
     
-    // For chatIcon and headerIcon, check if it's just a filename
-    if (property === 'chatIcon' || property === 'headerIcon') {
         // If value doesn't contain "/" and doesn't start with "http", it's a filename
         if (!value.includes('/') && !value.startsWith('http')) {
             return '../../files/' + value;
         }
-    }
-    
     return value;
 }
 
