@@ -246,6 +246,36 @@ function resetToDefaults() {
     }
 }
 
+// Function to clear chat session storage
+function clearChatSessions() {
+    if (confirm('Are you sure you want to clear all chat sessions? This will remove chat history and session data.')) {
+        const keysToRemove = [];
+        
+        // Find all localStorage keys that end with the specified patterns
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && (key.endsWith('${_EXISTING_SESSION_ID}') || key.endsWith('${_EXISTING_SESSION_MESSAGES}'))) {
+                keysToRemove.push(key);
+            }
+        }
+        
+        // Remove the found keys
+        keysToRemove.forEach(key => {
+            localStorage.removeItem(key);
+            console.log('Removed localStorage key:', key);
+        });
+        
+        if (keysToRemove.length > 0) {
+            showSuccessMessage(`Cleared ${keysToRemove.length} chat session(s). Page will refresh to apply changes.`);
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showSuccessMessage('No chat sessions found to clear.');
+        }
+    }
+}
+
 // Function to show success message
 function showSuccessMessage(message) {
     const toast = createToast(message, 'success');

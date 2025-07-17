@@ -145,6 +145,31 @@
                 background: rgba(255, 255, 255, 0.2) !important;
             }
 
+            /* Clear session button */
+            #crestaClearSessionButton {
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 100px !important;
+                z-index: 2147483647 !important;
+                width: 40px !important;
+                height: 40px !important;
+                opacity: 0.3 !important;
+                transition: opacity 0.3s !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.1) !important;
+                border: none !important;
+                border-radius: 4px !important;
+                font-size: 18px !important;
+            }
+
+            #crestaClearSessionButton:hover {
+                opacity: 1 !important;
+                background: rgba(255, 255, 255, 0.2) !important;
+            }
+
             /* Modal styles */
             .cresta-modal {
                 display: none;
@@ -486,10 +511,12 @@
         // Remove existing elements if they exist
         const existingMic = document.getElementById('crestaInjectedMicButton');
         const existingSettings = document.getElementById('crestaSettingsButton');
+        const existingClearSession = document.getElementById('crestaClearSessionButton');
         const existingModal = document.getElementById('crestaSettingsModal');
         
         if (existingMic) existingMic.remove();
         if (existingSettings) existingSettings.remove();
+        if (existingClearSession) existingClearSession.remove();
         if (existingModal) existingModal.remove();
     
         // Create microphone button container
@@ -506,6 +533,12 @@
         settingsButton.id = 'crestaSettingsButton';
         settingsButton.textContent = '🎨';
         settingsButton.title = 'Cresta Settings';
+
+        // Create clear session button
+        const clearSessionButton = document.createElement('button');
+        clearSessionButton.id = 'crestaClearSessionButton';
+        clearSessionButton.textContent = '🗑️';
+        clearSessionButton.title = 'Clear Chat Session';
 
         // Create settings modal
         const modal = document.createElement('div');
@@ -614,6 +647,7 @@
         // Append elements to body
         document.body.appendChild(micButton);
         document.body.appendChild(settingsButton);
+        document.body.appendChild(clearSessionButton);
         document.body.appendChild(modal);
     }
 
@@ -1100,6 +1134,36 @@
         }
     }
 
+    // Function to clear chat session storage
+    function clearChatSessions() {
+        if (confirm('Are you sure you want to clear all chat sessions? This will remove chat history and session data.')) {
+            const keysToRemove = [];
+            
+            // Find all localStorage keys that end with the specified patterns
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.endsWith('${_EXISTING_SESSION_ID}') || key.endsWith('${_EXISTING_SESSION_MESSAGES}'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            
+            // Remove the found keys
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+                console.log('Removed localStorage key:', key);
+            });
+            
+            if (keysToRemove.length > 0) {
+                showSuccessMessage(`Cleared ${keysToRemove.length} chat session(s). Page will refresh to apply changes.`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                showSuccessMessage('No chat sessions found to clear.');
+            }
+        }
+    }
+
     // Global functions for event handlers
     window.crestaHandleColorSettings = handleColorSettings;
     window.crestaCloseSettingsModal = closeSettingsModal;
@@ -1123,6 +1187,14 @@
         const settingsButton = document.getElementById('crestaSettingsButton');
         if (settingsButton) {
             settingsButton.addEventListener('click', handleColorSettings);
+        }
+
+        const clearSessionButton = document.getElementById('crestaClearSessionButton');
+        if (clearSessionButton) {
+            clearSessionButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                clearChatSessions();
+            });
         }
 
         const form = document.getElementById('crestaColorSettingsForm');

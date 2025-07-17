@@ -92,6 +92,30 @@
     opacity: 1;
 }
 
+.clear-session-button {
+    position: fixed;
+    bottom: 20px;
+    left: 100px;
+    z-index: 9999;
+    opacity: 0.1;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.clear-session-button:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
 /* Modal Styles */
 .modal {
     display: none;
