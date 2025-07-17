@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Image Uploader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    a {
+      color: green;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload Image to GitHub</h2>
+  <input type="file" id="fileInput" accept="image/*">
+  <button onclick="uploadImage()">Upload</button>
+  <div id="status"></div>
+
+  <script>
+    async function uploadImage() {
+      const fileInput = document.getElementById('fileInput');
+      const status = document.getElementById('status');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        status.textContent = 'Please select a file.';
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        const base64 = reader.result.split(',')[1]; // Strip "data:image/*;base64,"
+        const formData = new URLSearchParams();
+        formData.append("filename", file.name);
+        formData.append("content", base64);
+
+        status.textContent = 'Uploading...';
+
+        try {
+          const res = await fetch("https://connecttocresta-9063.twil.io/file-upload", {
+            method: "POST",
+            body: formData
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            status.innerHTML = `✅ Uploaded! View it <a href="${data.content_url}" target="_blank">here</a>`;
+          } else {
+            throw new Error(data.error);
+          }
+
+        } catch (err) {
+          status.textContent = '❌ Upload failed: ' + err.message;
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
