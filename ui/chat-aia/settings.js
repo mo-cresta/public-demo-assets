@@ -160,6 +160,21 @@ function populateForm(settings) {
     document.getElementById('namespace').value = namespace;
 }
 
+// Helper function to process icon URLs
+function processIconUrl(value, property) {
+    if (!value.trim()) return value;
+    
+    // For chatIcon and headerIcon, check if it's just a filename
+    if (property === 'chatIcon' || property === 'headerIcon') {
+        // If value doesn't contain "/" and doesn't start with "http", it's a filename
+        if (!value.includes('/') && !value.startsWith('http')) {
+            return '../../files/' + value;
+        }
+    }
+    
+    return value;
+}
+
 // Function to handle form submission
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -182,8 +197,9 @@ function handleFormSubmit(event) {
                 localStorage.setItem('namespace', value);
                 console.log('Namespace updated:', value);
             } else if (property === 'chatIcon' || property === 'headerIcon' || property === 'backgroundImage') {
-                // Save URLs directly (icons and background image)
-                updatedSettings[property] = value;
+                // Process URLs (auto-prepend path for icon filenames)
+                const processedValue = processIconUrl(value, property);
+                updatedSettings[property] = processedValue;
             } else if (Object.keys(defaultSettings).includes(property)) {
                 // Handle color properties
                 const convertedColor = convertColor(value);

@@ -1034,6 +1034,21 @@
         formPopulated = false;
     }
 
+    // Helper function to process icon URLs
+    function processIconUrl(value, property) {
+        if (!value.trim()) return value;
+        
+        // For chatIcon and headerIcon, check if it's just a filename
+        if (property === 'chatIcon' || property === 'headerIcon') {
+            // If value doesn't contain "/" and doesn't start with "http", it's a filename
+            if (!value.includes('/') && !value.startsWith('http')) {
+                return '../../files/' + value;
+            }
+        }
+        
+        return value;
+    }
+
     function handleFormSubmit(event) {
         event.preventDefault();
         
@@ -1052,7 +1067,9 @@
                     localStorage.setItem('namespace', value);
                     console.log('Namespace updated:', value);
                 } else if (property === 'chatIcon' || property === 'headerIcon' || property === 'backgroundImage') {
-                    updatedSettings[property] = value;
+                    // Process URLs (auto-prepend path for icon filenames)
+                    const processedValue = processIconUrl(value, property);
+                    updatedSettings[property] = processedValue;
                 } else if (Object.keys(defaultSettings).includes(property)) {
                     updatedSettings[property] = value;
                 }
