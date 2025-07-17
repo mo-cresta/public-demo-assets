@@ -66,8 +66,8 @@
       }
       
       const namespace = localStorage.getItem('namespace') || 'virtual-agent-sandbox';
-      const chatIcon = localStorage.getItem('chatIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
-      const headerIcon = localStorage.getItem('headerIcon') || 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png';
+      const chatIcon = localStorage.getItem('chatIcon') || 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg';
+      const headerIcon = localStorage.getItem('headerIcon') || 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg';
       const chatTitle = localStorage.getItem('chatTitle') || 'Cresta';
       const useCase = 'virtual-agent-sandbox-voice';
       const customerName = 'cresta';
