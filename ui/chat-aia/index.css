@@ -68,8 +68,8 @@
 /* Settings buttons */
 .mic-button {
     position: fixed;
-    bottom: 20px;
-    left: 50px;
+    bottom: 25px;
+    left: 85px;
     display: flex;
     gap: 10px;
     z-index: 9999;
@@ -95,16 +95,14 @@
 .clear-session-button {
     position: fixed;
     bottom: 20px;
-    left: 100px;
+    left: 50px;
     z-index: 9999;
     opacity: 0.1;
     transition: opacity 0.3s;
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 18px;
-    width: 40px;
-    height: 40px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
