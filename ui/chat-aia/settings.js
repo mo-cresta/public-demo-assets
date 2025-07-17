@@ -254,7 +254,7 @@ function clearChatSessions() {
         // Find all localStorage keys that end with the specified patterns
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key && (key.endsWith('${_EXISTING_SESSION_ID}') || key.endsWith('${_EXISTING_SESSION_MESSAGES}'))) {
+            if (key && (key.endsWith('_EXISTING_SESSION_ID') || key.endsWith('_EXISTING_SESSION_MESSAGES'))) {
                 keysToRemove.push(key);
             }
         }
