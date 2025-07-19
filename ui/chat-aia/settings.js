@@ -119,6 +119,7 @@ function handleColorSettings() {
     if (!formPopulated) {
         const currentSettings = getCurrentSettings();
         populateForm(currentSettings);
+        populatePresetDropdown(); // Populate preset dropdown
         formPopulated = true;
     }
 }
@@ -279,6 +280,124 @@ function clearChatSessions() {
     }
 }
 
+// Preset Management Functions
+function savePreset() {
+    const presetName = document.getElementById('presetName').value.trim();
+    if (!presetName) {
+        showErrorMessage('Please enter a preset name.');
+        return;
+    }
+
+    // Get current form values
+    const currentSettings = {
+        associatedPhoneNumber: document.getElementById('associatedPhoneNumber').value,
+        namespace: document.getElementById('namespace').value,
+        chatTitle: document.getElementById('chatTitle').value,
+        chatIcon: document.getElementById('chatIcon').value,
+        headerIcon: document.getElementById('headerIcon').value,
+        backgroundImage: document.getElementById('backgroundImage').value,
+        titlebarColor: document.getElementById('titlebarColor').value,
+        titlebarFontColor: document.getElementById('titlebarFontColor').value,
+        chatBackgroundColor: document.getElementById('chatBackgroundColor').value,
+        userMessageBackgroundColor: document.getElementById('userMessageBackgroundColor').value,
+        userMessageTextColor: document.getElementById('userMessageTextColor').value,
+        aiMessageBackgroundColor: document.getElementById('aiMessageBackgroundColor').value,
+        aiMessageTextColor: document.getElementById('aiMessageTextColor').value,
+        sendIconColor: document.getElementById('sendIconColor').value,
+        inputBorderColor: document.getElementById('inputBorderColor').value,
+        closeIconColor: document.getElementById('closeIconColor').value,
+        widgetBackgroundColor: document.getElementById('widgetBackgroundColor').value
+    };
+
+    // Get existing presets or initialize empty object
+    const presets = JSON.parse(localStorage.getItem('settingsPresets') || '{}');
+    
+    // Save the preset
+    presets[presetName] = currentSettings;
+    localStorage.setItem('settingsPresets', JSON.stringify(presets));
+    
+    // Clear preset name field and refresh dropdown
+    document.getElementById('presetName').value = '';
+    populatePresetDropdown();
+    
+    showSuccessMessage(`Preset "${presetName}" saved successfully!`);
+}
+
+function loadPreset() {
+    const selectedPreset = document.getElementById('presetSelect').value;
+    if (!selectedPreset) {
+        showErrorMessage('Please select a preset to load.');
+        return;
+    }
+
+    const presets = JSON.parse(localStorage.getItem('settingsPresets') || '{}');
+    const presetData = presets[selectedPreset];
+    
+    if (!presetData) {
+        showErrorMessage('Preset not found.');
+        return;
+    }
+
+    // Populate form with preset data
+    document.getElementById('associatedPhoneNumber').value = presetData.associatedPhoneNumber || '';
+    document.getElementById('namespace').value = presetData.namespace || '';
+    document.getElementById('chatTitle').value = presetData.chatTitle || '';
+    document.getElementById('chatIcon').value = presetData.chatIcon || '';
+    document.getElementById('headerIcon').value = presetData.headerIcon || '';
+    document.getElementById('backgroundImage').value = presetData.backgroundImage || '';
+    document.getElementById('titlebarColor').value = presetData.titlebarColor || '#000000';
+    document.getElementById('titlebarFontColor').value = presetData.titlebarFontColor || '#ffffff';
+    document.getElementById('chatBackgroundColor').value = presetData.chatBackgroundColor || '#f1f2f4';
+    document.getElementById('userMessageBackgroundColor').value = presetData.userMessageBackgroundColor || '#000000';
+    document.getElementById('userMessageTextColor').value = presetData.userMessageTextColor || '#ffffff';
+    document.getElementById('aiMessageBackgroundColor').value = presetData.aiMessageBackgroundColor || '#000000';
+    document.getElementById('aiMessageTextColor').value = presetData.aiMessageTextColor || '#000000';
+    document.getElementById('sendIconColor').value = presetData.sendIconColor || '#000000';
+    document.getElementById('inputBorderColor').value = presetData.inputBorderColor || '#000000';
+    document.getElementById('closeIconColor').value = presetData.closeIconColor || '#000000';
+    document.getElementById('widgetBackgroundColor').value = presetData.widgetBackgroundColor || '#ffffff';
+
+    showSuccessMessage(`Preset "${selectedPreset}" loaded successfully!`);
+}
+
+function deletePreset() {
+    const selectedPreset = document.getElementById('presetSelect').value;
+    if (!selectedPreset) {
+        showErrorMessage('Please select a preset to delete.');
+        return;
+    }
+
+    if (!confirm(`Are you sure you want to delete the preset "${selectedPreset}"?`)) {
+        return;
+    }
+
+    const presets = JSON.parse(localStorage.getItem('settingsPresets') || '{}');
+    delete presets[selectedPreset];
+    localStorage.setItem('settingsPresets', JSON.stringify(presets));
+    
+    // Reset dropdown and refresh
+    document.getElementById('presetSelect').value = '';
+    populatePresetDropdown();
+    
+    showSuccessMessage(`Preset "${selectedPreset}" deleted successfully!`);
+}
+
+function populatePresetDropdown() {
+    const presets = JSON.parse(localStorage.getItem('settingsPresets') || '{}');
+    const dropdown = document.getElementById('presetSelect');
+    
+    // Clear existing options except the first one
+    dropdown.innerHTML = '<option value="">-- Select a preset --</option>';
+    
+    // Add preset options
+    Object.keys(presets).sort().forEach(presetName => {
+        const option = document.createElement('option');
+        option.value = presetName;
+        option.textContent = presetName;
+        dropdown.appendChild(option);
+    });
+}
+
 // Function to show success message
 function showSuccessMessage(message) {
     const toast = createToast(message, 'success');
@@ -349,6 +468,10 @@ function initializeAll() {
     initializeEventListeners();
     initializeUrlParams();
     initializeBackgroundImage();
+    // Populate preset dropdown on page load if modal exists
+    if (document.getElementById('presetSelect')) {
+        populatePresetDropdown();
+    }
 }
 
 // Function to initialize background image from localStorage
