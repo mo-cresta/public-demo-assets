@@ -2,8 +2,8 @@
 const defaultSettings = {
     closeIconColor: 'black',
     chatBackgroundColor: '#f1f2f4',
-    chatIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
-    headerIcon: 'https://cresta.com/wp-content/uploads/2024/06/cresta-c-80x80-1.png',
+    chatIcon: 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg',
+    headerIcon: 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg',
     backgroundImage: '',
     titlebarColor: 'black',
     titlebarFontColor: 'white',
