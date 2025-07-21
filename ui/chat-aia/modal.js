@@ -89,11 +89,12 @@
       dfMessenger.setAttribute('recaptcha-site-key', '6LeEVqgnAAAAAK7eLjKMoER7BbIahGTHTfQaD4xO');
       dfMessenger.setAttribute('recaptcha-checkbox-site-key', '6Lc0dqgnAAAAADLukGM3TYFFmO5j62UwitR_wVfB');
       dfMessenger.setAttribute('should-hide-popup', 'false');
+      dfMessenger.setAttribute('auto-start', 'false');
       dfMessenger.setAttribute("popup-delay-show", "1000");
       dfMessenger.setAttribute("popup-delay-hide", "5000");
       dfMessenger.setAttribute('should-hide-popup-on-device-type', 'mobile');
       dfMessenger.setAttribute("position", "right");
-      dfMessenger.setAttribute("chat-window-horizontal-position", "center");
+      dfMessenger.setAttribute("chat-window-horizontal-position", "right");
       document.body.appendChild(dfMessenger);
       const script = document.createElement('script');
       script.src = 'https://cdn.cresta.com/ccw-demo-old-iframe-allowed/index.js';
