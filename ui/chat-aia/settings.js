@@ -30,6 +30,11 @@ function updateSettings(settings) {
         applyBackgroundImage(settings.backgroundImage);
     }
     
+    // Update modal styles immediately if the function is available
+    if (typeof window.applyModalStyles === 'function') {
+        window.applyModalStyles();
+    }
+    
     console.log('Settings saved to localStorage:', settings);
 }
 
@@ -246,7 +251,7 @@ function resetToDefaults() {
         // Update with defaults
         updateSettings(defaultSettings);
         populateForm(defaultSettings);
-        showSuccessMessage('Settings reset to defaults! Please refresh the page to see changes.');
+        showSuccessMessage('Settings reset to defaults! Changes applied immediately.');
     }
 }
 
@@ -356,6 +361,15 @@ function loadPreset() {
     document.getElementById('inputBorderColor').value = presetData.inputBorderColor || '#000000';
     document.getElementById('closeIconColor').value = presetData.closeIconColor || '#000000';
     document.getElementById('widgetBackgroundColor').value = presetData.widgetBackgroundColor || '#ffffff';
+
+    // Update localStorage with the preset values and refresh modal styles
+    const settingsToUpdate = {};
+    Object.keys(presetData).forEach(key => {
+        if (presetData[key] && Object.keys(defaultSettings).includes(key)) {
+            settingsToUpdate[key] = presetData[key];
+        }
+    });
+    updateSettings(settingsToUpdate);
 
     showSuccessMessage(`Preset "${selectedPreset}" loaded successfully!`);
 }

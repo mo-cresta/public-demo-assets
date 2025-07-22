@@ -1,4 +1,5 @@
-(function() {
+// Function to apply styles based on current localStorage values
+function applyModalStyles() {
     // Get configurable colors from localStorage or use defaults
     const titlebarColor = localStorage.getItem('titlebarColor') || 'black';
     const chatBackgroundColor = localStorage.getItem('chatBackgroundColor') || '#f1f2f4';
@@ -12,8 +13,15 @@
     const inputBorderColor = localStorage.getItem('inputBorderColor') || 'black';
     const widgetBackgroundColor = localStorage.getItem('widgetBackgroundColor') || 'white';
 
+    // Remove existing style element if it exists
+    const existingStyle = document.getElementById('dynamic-modal-styles');
+    if (existingStyle) {
+        existingStyle.remove();
+    }
+
     // Create a <style> element and add your CSS rules
     const styleEl = document.createElement('style');
+    styleEl.id = 'dynamic-modal-styles';
     styleEl.textContent = `
       df-messenger {
         --df-messenger-button-titlebar-color: ${titlebarColor};
@@ -33,12 +41,25 @@
     `;
     document.head.appendChild(styleEl);
   
-    // Create a <link> element for the external stylesheet
-    const linkEl = document.createElement('link');
-    linkEl.href = "https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
-    linkEl.rel = "stylesheet";
-    document.head.appendChild(linkEl);
-  })();
+    // Create a <link> element for the external stylesheet if it doesn't exist
+    if (!document.querySelector('link[href*="chatgpt-widget-v2/index.css"]')) {
+        const linkEl = document.createElement('link');
+        linkEl.href = "https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
+        linkEl.rel = "stylesheet";
+        document.head.appendChild(linkEl);
+    }
+}
+
+// Make the function globally available so settings.js can call it
+window.applyModalStyles = applyModalStyles;
+
+// Apply styles when DOM is ready to ensure proper initialization order
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyModalStyles);
+} else {
+    // DOM is already loaded, apply styles immediately
+    applyModalStyles();
+}
   
   // Wait for DOM to be ready before manipulating document.body
   async function initializeMessenger() {
