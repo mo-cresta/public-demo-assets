@@ -95,7 +95,7 @@ if (document.readyState === 'loading') {
       
       const dfMessenger = document.createElement('df-messenger');
       dfMessenger.setAttribute('chat-title', chatTitle);
-      dfMessenger.setAttribute('chat-subtitle', "Chat with an AI Agent!");
+      dfMessenger.setAttribute('chat-subtitle', "Powered by Cresta");
       dfMessenger.setAttribute('persist-session', 'true');
       dfMessenger.setAttribute('chat-icon', chatIcon);
       dfMessenger.setAttribute('header-icon', headerIcon);
