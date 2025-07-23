@@ -10,6 +10,7 @@ function applyModalStyles() {
     const aiMessageBackgroundColor = localStorage.getItem('aiMessageBackgroundColor') || 'black';
     const aiMessageTextColor = localStorage.getItem('aiMessageTextColor') || 'black';
     const sendIconColor = localStorage.getItem('sendIconColor') || 'black';
+    const sendIconBackgroundColor = localStorage.getItem('sendIconBackgroundColor') || '#f1f2f4';
     const inputBorderColor = localStorage.getItem('inputBorderColor') || 'black';
     const widgetBackgroundColor = localStorage.getItem('widgetBackgroundColor') || 'white';
 
@@ -35,6 +36,7 @@ function applyModalStyles() {
         --ai-message-window-desktop-width: 500px;
         --ai-message-window-desktop-height: 600px;
         --df-messenger-send-icon-color: ${sendIconColor};
+        --df-messenger-send-icon-background-color: ${sendIconBackgroundColor};
         --df-messenger-input-border-color: ${inputBorderColor};
         --widget-messenger-background-color: ${widgetBackgroundColor};
       }
@@ -44,7 +46,7 @@ function applyModalStyles() {
     // Create a <link> element for the external stylesheet if it doesn't exist
     if (!document.querySelector('link[href*="chatgpt-widget-v2/index.css"]')) {
         const linkEl = document.createElement('link');
-        linkEl.href = "https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
+        linkEl.href = "https://va-widget.us-web-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
         linkEl.rel = "stylesheet";
         document.head.appendChild(linkEl);
     }
@@ -90,6 +92,7 @@ if (document.readyState === 'loading') {
       const chatIcon = localStorage.getItem('chatIcon') || 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg';
       const headerIcon = localStorage.getItem('headerIcon') || 'https://cdn.prod.website-files.com/67fe49bf21b9f9d5b910d3c9/68714b1e1f2e554671269174_chat_widget_button%20(1).svg';
       const chatTitle = localStorage.getItem('chatTitle') || 'Cresta';
+      const greetingMessage = localStorage.getItem('greetingMessage') || '';
       const useCase = 'virtual-agent-sandbox-voice';
       const customerName = 'cresta';
       
@@ -99,6 +102,9 @@ if (document.readyState === 'loading') {
       dfMessenger.setAttribute('persist-session', 'true');
       dfMessenger.setAttribute('chat-icon', chatIcon);
       dfMessenger.setAttribute('header-icon', headerIcon);
+      if (greetingMessage && greetingMessage.trim()) {
+          dfMessenger.setAttribute('greeting-message', greetingMessage);
+      }
       dfMessenger.setAttribute('crestagpt-api', 'https://api-virtual-agent-sandbox.cresta.com');
       dfMessenger.setAttribute('crestagpt-agent', chatAiAgentId);
       dfMessenger.setAttribute('cresta-voice-agent', voiceAgentId);

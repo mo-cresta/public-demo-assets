@@ -13,7 +13,9 @@ const defaultSettings = {
     aiMessageTextColor: 'black',
     inputBorderColor: 'black',
     sendIconColor: 'black',
+    sendIconBackgroundColor: '#f1f2f4',
     widgetBackgroundColor: 'white',
+    greetingMessage: '',
 };
 
 // Function to update settings - save directly to localStorage
@@ -155,17 +157,21 @@ function populateForm(settings) {
     document.getElementById('sendIconColor').value = convertToHex(settings.sendIconColor) || '#000000';
     document.getElementById('inputBorderColor').value = convertToHex(settings.inputBorderColor) || '#000000';
     document.getElementById('widgetBackgroundColor').value = convertToHex(settings.widgetBackgroundColor) || '#ffffff';
+    document.getElementById('sendIconBackgroundColor').value = convertToHex(settings.sendIconBackgroundColor) || '#f1f2f4';
     document.getElementById('chatIcon').value = settings.chatIcon || '';
     document.getElementById('headerIcon').value = settings.headerIcon || '';
     document.getElementById('backgroundImage').value = settings.backgroundImage || '';
+    document.getElementById('greetingMessage').value = settings.greetingMessage || '';
     
-    // Populate associatedPhoneNumber, namespace, and chatTitle from localStorage
+    // Populate associatedPhoneNumber, namespace, chatTitle, and greetingMessage from localStorage
     const associatedPhoneNumber = localStorage.getItem('aiAgentAssociatedPhoneNumber') || '';
     const namespace = localStorage.getItem('namespace') || '';
     const chatTitle = localStorage.getItem('chatTitle') || '';
+    const greetingMessage = localStorage.getItem('greetingMessage') || '';
     document.getElementById('associatedPhoneNumber').value = associatedPhoneNumber;
     document.getElementById('namespace').value = namespace;
     document.getElementById('chatTitle').value = chatTitle;
+    document.getElementById('greetingMessage').value = greetingMessage;
 }
 
 // Helper function to process icon URLs
@@ -204,6 +210,10 @@ function handleFormSubmit(event) {
                 // Save chatTitle to localStorage
                 localStorage.setItem('chatTitle', value);
                 console.log('Chat Title updated:', value);
+            } else if (property === 'greetingMessage') {
+                // Save greetingMessage to localStorage
+                localStorage.setItem('greetingMessage', value);
+                console.log('Greeting Message updated:', value);
             } else if (property === 'chatIcon' || property === 'headerIcon' || property === 'backgroundImage') {
                 // Process URLs (auto-prepend path for icon filenames)
                 const processedValue = processIconUrl(value, property);
@@ -247,6 +257,7 @@ function resetToDefaults() {
         localStorage.removeItem('aiAgentAssociatedPhoneNumber');
         localStorage.removeItem('namespace');
         localStorage.removeItem('chatTitle');
+        localStorage.removeItem('greetingMessage');
         
         // Update with defaults
         updateSettings(defaultSettings);
@@ -311,7 +322,9 @@ function savePreset() {
         sendIconColor: document.getElementById('sendIconColor').value,
         inputBorderColor: document.getElementById('inputBorderColor').value,
         closeIconColor: document.getElementById('closeIconColor').value,
-        widgetBackgroundColor: document.getElementById('widgetBackgroundColor').value
+        widgetBackgroundColor: document.getElementById('widgetBackgroundColor').value,
+        sendIconBackgroundColor: document.getElementById('sendIconBackgroundColor').value,
+        greetingMessage: document.getElementById('greetingMessage').value,
     };
 
     // Get existing presets or initialize empty object
@@ -361,6 +374,8 @@ function loadPreset() {
     document.getElementById('inputBorderColor').value = presetData.inputBorderColor || '#000000';
     document.getElementById('closeIconColor').value = presetData.closeIconColor || '#000000';
     document.getElementById('widgetBackgroundColor').value = presetData.widgetBackgroundColor || '#ffffff';
+    document.getElementById('sendIconBackgroundColor').value = presetData.sendIconBackgroundColor || '#f1f2f4';
+    document.getElementById('greetingMessage').value = presetData.greetingMessage || '';
 
     // Update localStorage with the preset values and refresh modal styles
     const settingsToUpdate = {};
