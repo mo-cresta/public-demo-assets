@@ -46,7 +46,7 @@ function applyModalStyles() {
     // Create a <link> element for the external stylesheet if it doesn't exist
     if (!document.querySelector('link[href*="chatgpt-widget-v2/index.css"]')) {
         const linkEl = document.createElement('link');
-        linkEl.href = "https://va-widget.us-web-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
+        linkEl.href = "https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.css";
         linkEl.rel = "stylesheet";
         document.head.appendChild(linkEl);
     }
