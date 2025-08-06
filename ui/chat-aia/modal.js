@@ -125,7 +125,7 @@ if (document.readyState === 'loading') {
       dfMessenger.setAttribute("chat-window-horizontal-position", "right");
       document.body.appendChild(dfMessenger);
       const script = document.createElement('script');
-      script.src = 'https://cdn.cresta.com/ccw-demo-old-iframe-allowed/index.js';
+      script.src = 'https://va-widget.us-west-2-prod.cresta.ai/chatgpt-widget-v2/index.js';
       document.body.appendChild(script);
   }
   
